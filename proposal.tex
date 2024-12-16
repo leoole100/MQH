@@ -1,0 +1,47 @@
+\documentclass[
+	a4page,
+	parskip=full
+]{scrartcl}
+\usepackage{libertinus, libertinust1math}
+\usepackage[sfdefault]{biolinum}
+\usepackage{roboto}
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
+\usepackage{hyperref}
+\usepackage[citestyle=verbose]{biblatex}
+\addbibresource{literature.bib}
+
+\begin{document}
+
+{
+	\sffamily\noindent
+	Leon Oleschko \hfill \today\\
+	Modeling Quantum Hardware: open dynamics and control \hfill Universität Konstanz\\
+	\vspace*{.1cm}\\
+	\textbf{\huge Project Proposal}
+}
+
+Since reading the noise modelling in a proposal for a gravitation wave observatory \footcite{rainer_weiss_electronically_1972}
+I want make a similar analysis of a noise limited experiment.
+By examining a optomechanical resonance cavity with the numerical tools form this course, this can be achieved.\\
+The proposal is in the spirit of the first paper a simplified gravitational wave observatory setup, with a resonant cavity and a room temperature mirror, modelled as a high $Q$ oscillator.
+Then the noise sources from the temperature bath of the mirror mount, the radiation pressure noise and the shot (or phase) noise are introduced, as those are the main noise sources \footcite{aspelmeyer_cavity_2014-1}.
+It should be possible to write this easily in the Lindblad framework of the course and solved using the common numerical tools.\\
+As a extension of the project I would like to look into the squeezing, 
+fitting with the theme of this project, as it was also done at LIGO \footcite{yu_quantum_2020}.
+
+
+% The first step in the project is the simulation of the a coupled resonator with a oscillating mirror mount. 
+% The linearized Hamiltonian can be taken from \footcite{aspelmeyer_cavity_2014-1} as $$
+% H_0 = (\omega_0 - G x) a^\dagger a + \Omega b^\dagger b \text{,}
+% $$
+% with the frequency of the resonator $\omega_0-G x$ depending on the position of the oscillator $x$, $a^\dagger a$ the photon count in the resonator and $b^\dagger b$ the phonon count in the oscillator.\\
+% This should be solved in a rotating frame with $\omega_0$, as discussed in the lecture, changing the frequency to a detuning between the laser and the resonator $\Delta = \omega_L - \omega_0 - G x$ \footcite{aspelmeyer_cavity_2014-1}.
+% To add a first noise source, the resonator should be coupled to a thermal bath, like shown in the lecture.
+
+% To add another noise source, a radiation pressure force can be added to the Hamiltonian with $$
+% H_1 = (\omega_0 - G x) a^\dagger a + \Omega b^\dagger b - G x a^\dagger a
+% $$
+
+
+
+\end{document}
