@@ -1,4 +1,4 @@
-#=
+"""
 Implementation of a optomechanical cavity.
 based on: https://docs.qojulia.org/examples/optomech-cooling/
 
@@ -7,7 +7,7 @@ $$
 $$
 
 where $a$ and $b$ are the annihilation operators for the cavity and mechanical mode, respectively. The cavity is driven by a coherent drive with amplitude $\eta$ and detuning $\Delta$. The mechanical mode has frequency $\omega_m$ and is coupled to the cavity with strength $g$.
-=#
+"""
 
 using QuantumOptics
 using CairoMakie
