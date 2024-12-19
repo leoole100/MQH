@@ -1,65 +1,69 @@
-"""
-Implementation of a optomechanical cavity.
-based on: https://docs.qojulia.org/examples/optomech-cooling/
-
-$$
-	H = -\Delta a^\dagger a + \omega_m b^\dagger b + g (a^\dagger a)(b^\dagger + b) + \eta (a + a^\dagger)
-$$
-
-where $a$ and $b$ are the annihilation operators for the cavity and mechanical mode, respectively. The cavity is driven by a coherent drive with amplitude $\eta$ and detuning $\Delta$. The mechanical mode has frequency $\omega_m$ and is coupled to the cavity with strength $g$.
-"""
+#==
+Just look at the cavity without any noise effects.
+==#
 
 using QuantumOptics
 using CairoMakie
 
 #%%
+G = 1
+Δ = 0
+Ω = 1 
 
-# Parameters
-ω_mech = 1.
-Δ = -ω_mech
+basis_a = FockBasis(20)
+basis_b = FockBasis(50)
 
-# Constants
-g = 1.
-η = 1.
-κ = 0.1	# cavity decay rate
-γ = 0.1	# mechanical decay rate
+a = destroy(basis_a) ⊗ one(basis_b)
+b = one(basis_a) ⊗ destroy(basis_b)
 
-# Basis
-b_cav = FockBasis(4)
-b_mech = FockBasis(10)
+x = b + dagger(b)
+na = dagger(a)*a
+nb = dagger(b)*b
 
-# Operators Cavity
-a = destroy(b_cav) ⊗ one(b_mech)
-at = create(b_cav) ⊗ one(b_mech)
-an = number(b_cav) ⊗ one(b_mech)
+H = -Δ*dagger(a)*a - G*x*dagger(a)*a + Ω*dagger(b)*b
 
-# Operators Oscillator
-b = one(b_cav) ⊗ destroy(b_mech)
-bt = one(b_cav) ⊗ create(b_mech)
-bn = one(b_cav) ⊗ number(b_mech)
+ψ0 = coherentstate(basis_a, 3) ⊗ fockstate(basis_b, 0)
 
-function H(
-	ω_mech=ω_mech, Δ=Δ, g=g, η=η, κ=κ, γ=γ,
-	b_cav=b_cav, b_mech=b_mech,
-	a=a, at=at, b=b, bt=bt
-)
-	H_cav = -Δ * at * a + η * (a + at)
-	H_mech = ω_mech * bt * b + γ * (bt * b)
-	H_int = g * (at * a) * (bt + b)
-	return H_cav + H_mech + H_int	
+# display the state probabilities <i,j|ψ>
+function selector(basis::Basis, n::Integer)
+	z = zeros(length(basis))
+	z[n] = 1 
+	return Bra(basis, z)
 end
 
-ψ0 = fockstate(b_cav,1) ⊗ fockstate(b_mech,1)
+function state_prob(ψ::Ket, basis_a=basis_a, basis_b=basis_b)
+	return [
+		abs(selector(basis_a, i) ⊗ selector(basis_b, j) * ψ)^2
+		for i in 1:length(basis_a), j in 1:length(basis_b)]
+end
+
+function plot_state(state_prob::Matrix)
+	f,a,p = heatmap(0:length(basis_a)-1, 0:length(basis_b)-1, state_prob)
+	a.xlabel = "a"
+	a.ylabel = "b"
+	f
+end
+plot_state(s::Ket, basis_a=basis_a, basis_b=basis_b) = plot_state(state_prob(s, basis_a, basis_b))
+
+# plot_state(ψ0)
+
 
 # Time evolution
-T = [0:0.2:20;]
-@time tout, ψt = timeevolution.master(T, ψ0, H(), [a]; rates=[1])
+T = [0:0.1:10;]
+@time tout, ψt = timeevolution.schroedinger(T, ψ0, H)
 
-f, ax, p = lines(T, real(expect(an, ψt)), label="optical")
-lines!(T, real(expect(bn, ψt)), label="mechanical")
-ax.xlabel="Time"
-ax.ylabel="<n>"
+f = Figure()
+at = Axis(f[1, 1:2], xlabel="time", ylabel="<n>")
+
+# lines!(T, abs.(expect(na, ψt)), label="optical")
+# lines!(T, abs.(expect(nb, ψt)), label="mechanical")
+lines!(T, abs.(expect(H, ψt)), label="H")
 ylims!(low=0)
-xlims!(low=0)
+# xlims!(low=0)
 axislegend(position=:rc)
+
+a0 = Axis(f[2,1], title="start", ylabel="b", xlabel="a")
+heatmap!(a0, 0:length(basis_a)-1, 0:length(basis_b)-1, state_prob(ψt[1]))
+ae = Axis(f[2,2], title="end", xlabel="a")
+heatmap!(ae, 0:length(basis_a)-1, 0:length(basis_b)-1, state_prob(ψt[end]))
 f
