@@ -9,3 +9,6 @@
 *.run.xml
 *.synctex.gz
 *ERROR
+*.toc
+*.snm
+*.nav

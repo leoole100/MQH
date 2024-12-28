@@ -1,0 +1,51 @@
+\setbeamertemplate{navigation symbols}{}
+\usepackage{xcolor}
+\definecolor{seeblau}{HTML}{00A9E0}
+\definecolor{seegrau}{HTML}{9AA0A7}
+
+\definecolor{seeblau1}{HTML}{CCEEF9}
+\definecolor{seeblau2}{HTML}{A6E1F4}
+\definecolor{seeblau3}{HTML}{59C7EB}
+\definecolor{seeblau4}{HTML}{00A9E0}
+\definecolor{seeblau5}{HTML}{008ECE}
+
+\setbeamercolor{title}{fg=seeblau}
+\setbeamercolor{frametitle}{fg=seeblau}
+\setbeamercolor{section in toc}{fg=seeblau}
+\setbeamercolor{structure}{fg=seeblau}
+
+\setbeamertemplate{footline}{%
+	\begin{beamercolorbox}[sep=1em,wd=\paperwidth,leftskip=0.5cm,rightskip=0.5cm]{footlinecolor}
+		\small\textbf{\insertsection}\quad\insertsubsection\hfill\insertframenumber
+	\end{beamercolorbox}%
+}
+
+\usepackage[english]{babel}
+\parskip=20pt
+
+\usepackage[sfdefault]{roboto}
+\usepackage{sfmath}
+
+\usepackage{ifthen, adjustbox}
+\newcommand{\markieren}[4]{
+	\ifthenelse{\equal{#1}{}}{}{\adjustbox{padding=3pt, bgcolor=seeblau1, margin=-1pt}{\strut{\sffamily\robotoMedium{#1}}}\\}
+  \ifthenelse{\equal{#2}{}}{}{\adjustbox{padding=3pt, bgcolor=seeblau2, margin=-1pt}{\strut{\sffamily\robotoMedium{#2}}}\\}
+	\ifthenelse{\equal{#3}{}}{}{\adjustbox{padding=3pt, bgcolor=seeblau3, margin=-1pt}{\strut{\sffamily\robotoMedium{#3}}}\\}
+	\ifthenelse{\equal{#4}{}}{}{\adjustbox{padding=3pt, bgcolor=seeblau4, margin=-1pt}{\strut{\sffamily\robotoMedium{#4}}}}
+}
+
+\usepackage[
+	style=authortitle
+]{biblatex}
+\newcommand{\customcite}[1]{
+\let\thefootnote\relax\footnotetext{
+	\tiny\raggedleft
+	\emph{\citetitle{#1}}, \citeauthor*{#1} \citeyear{#1}
+}
+}
+
+
+\usepackage[ddmmyyyy]{datetime}
+\renewcommand{\dateseparator}{.}
+
+\usepackage{amsmath,amssymb,amsfonts,amsthm}
