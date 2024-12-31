@@ -24,7 +24,8 @@
 \parskip=20pt
 
 \usepackage[sfdefault]{roboto}
-\usepackage{sfmath}
+\usepackage{libertinust1math}
+\usefonttheme[onlymath]{serif}
 
 \usepackage{ifthen, adjustbox}
 \newcommand{\markieren}[4]{
@@ -34,14 +35,26 @@
 	\ifthenelse{\equal{#4}{}}{}{\adjustbox{padding=3pt, bgcolor=seeblau4, margin=-1pt}{\strut{\sffamily\robotoMedium{#4}}}}
 }
 
+\let\footnoterule\relax % removes bar
+\setbeamertemplate{footnote}{
+  \parindent 0em\noindent
+  \raggedleft
+  \usebeamercolor{footnote}\hbox to 0.8em{\hfil\insertfootnotemark}\tiny\insertfootnotetext\par%
+}
+
+\newcommand\blfootnote[1]{
+	\let\thefootnote\relax\footnotetext{#1}
+}
+
 \usepackage[
 	style=authortitle
 ]{biblatex}
-\newcommand{\customcite}[1]{
-\let\thefootnote\relax\footnotetext{
-	\tiny\raggedleft
-	\emph{\citetitle{#1}}, \citeauthor*{#1} \citeyear{#1}
-}
+\usepackage{ifthen}
+\newcommand{\customcite}[2][]{
+	\blfootnote{
+		\emph{\citetitle{#2}}, \citeauthor*{#2} \citeyear{#2}
+		\ifthenelse{ \equal{#1}{} }{}{(#1)}
+	}
 }
 
 

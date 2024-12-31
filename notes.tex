@@ -33,15 +33,68 @@
 	\begin{columns}
 		\column{0.5\textwidth}
 		\includegraphics[width=\textwidth]{figures/drawing.pdf}
-		
-		\column{.5\textwidth}
-		$$
-		H = 
-		$$
+
 	\end{columns}
 
 	\customcite{aspelmeyer_cavity_2014}
 	\customcite{bowen_quantum_2015}
+\end{frame}
+
+\begin{frame}{Hamiltonian}
+
+	{
+		\small
+		Optical Cavity $\hat a$, $\omega_o(\hat x_\text{mech}) = \omega_o + \frac{g}{\omega_o} \hat x_\text{mech}$;
+		mechanical oscillations $\hat b, \omega_m$;
+		coupling $g$;
+		Drive $E$, $\omega_L$
+		\blfootnote{$\hbar=1$}
+	}
+	$$
+		H = \underbrace{
+			\omega_o\; a^\dagger a
+		}_\text{Cavity} 
+		+ \underbrace{
+			\omega_m\; b^\dagger b
+		}_\text{Mechanical}
+		- \underbrace{
+			g\; a^\dagger a\; (b + b^\dagger)
+		}_{\text{Interaction}}
+		+ \underbrace{
+			i ( E a^\dagger e^{-i\omega_L t} - E^* a e^{i\omega_L t})
+		}_{\text{Drive}}
+	$$
+
+	\pause
+	\emph{Rotating Wave Approximation} at $\omega_L$ with $\Delta = \omega_o - \omega_L$, $a \rightarrow ae^{i\omega_L t}$:
+	$$
+		H_\text{RWA} = \Delta\; a^\dagger a + \omega_m\; b^\dagger b - g\; a^\dagger a\; (b^\dagger + b) + i (E a^\dagger - E^* a)
+	$$
+
+	\customcite[2.3.1]{bowen_quantum_2015}
+\end{frame}
+
+\begin{frame}{Hamiltonian Linearization}
+	{
+		\color{seegrau}
+		$$
+			H_\text{RWA} = \Delta\; a^\dagger a + \omega_m\; b^\dagger b - g\; a^\dagger a\; (b^\dagger + b) + i (E a^\dagger - E^* a)
+		$$
+	}	
+	Linearize $a = \alpha + \delta a$, $b = \beta + \delta b$; with $\alpha, \beta$ steady state.\\
+	\begin{align*}
+		H_\text{Interaction} &=
+		- g\; a^\dagger a\; (b^\dagger + b)\\
+		&\approx -\underbrace{g |\alpha|}_{G} (\delta a + \delta a^\dagger)\;(\delta b + \delta b^\dagger + 2 \beta)
+		{\color{seegrau}+ \mathcal{O}(a^2 + \delta a \delta a^\dagger) }
+	\end{align*}
+
+	\customcite[2.7]{bowen_quantum_2015}
+\end{frame}
+
+\begin{frame}{Dissipation}
+	
+	\customcite[2.8]{bowen_quantum_2015}
 \end{frame}
 
 
