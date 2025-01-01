@@ -1,4 +1,5 @@
 using QuantumOptics, CairoMakie, LinearAlgebra
+include("00_functions.jl")
 cd(@__DIR__)
 
 # Parameters
@@ -8,7 +9,7 @@ cd(@__DIR__)
 g0 = 0.01*ω_m        # Single-photon coupling (Hz)
 Δ = ω_m             # Detuning (drive on red sideband)
 drive_amplitude = 100*ω_m  # Drive amplitude (Hz)
-n_th = 10           # Thermal occupation number
+n_th = 1000           # Thermal occupation number
 
 
 # Steady-state amplitudes (classical solution)
@@ -21,10 +22,10 @@ G = g0 * abs(α)  # Linearized coupling strength
 # Operators
 optical_space = FockBasis(10)
 mechanical_space = FockBasis(20)
-hilbert_space = tensor(optical_space, mechanical_space)
+hilbert_space = optical_space ⊗ mechanical_space
 
-δa = tensor(destroy(optical_space), one(mechanical_space))
-δb = tensor(one(optical_space), destroy(mechanical_space))
+δa = destroy(optical_space) ⊗ one(mechanical_space)
+δb = one(optical_space) ⊗ destroy(mechanical_space)
 
 # Linearized Hamiltonian
 H_c = Δ * dagger(δa) * δa
@@ -46,16 +47,27 @@ times = 0:0.05:3
 @time tout, result = timeevolution.master(times, ψ0, H, collapse_ops);
 
 # %%
+# look at timeevolution
 
-optical_result = ptrace.(result, 2)
-optical_state = hcat([diag(normalize(t).data) for t in optical_result]...)'
-N_mean = [expect(p, dagger(δa)*δa) for p in result]
+function getStates(state, index::Integer)
+	trace = ptrace.(state, index)
+	return hcat([diag(normalize(t).data) for t in trace]...)'	
+end
 
-f = Figure()
-a = Axis(f[1,1], xlabel="Time in 2π/ω_m", ylabel="n")
+N_opt = [expect(p, dagger(δa)*δa) for p in result]
+N_mech = [expect(p, dagger(δb)*δb) for p in result]
 
-heatmap!(times, 0:length(optical_space)-1, abs.(optical_state))
-lines!(times, abs.(N_mean), color=:white)
+f = Figure(size=fullsize)
+a = Axis(f[1,1], xlabel="Time in 2π/ωₘ", ylabel="n")
+
+lines!(times, abs.(N_opt), label="Optical")
+heatmap!(times, 0:optical_space.N, abs.(getStates(result, 2)), 
+ colormap=[:transparent, Makie.wong_colors()[1]]
+)
+
+lines!(times, abs.(N_mech), label="Mechanical")
+
+axislegend(position=:rb)
 
 save("../figures/02 time evolution.pdf", f)
 f

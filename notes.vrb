@@ -1,0 +1,6 @@
+\frametitle{Implementation}
+\begin{lstlisting}
+optical_space = FockBasis(10)
+mechanical_space = FockBasis(20)
+hilbert_space = tensor(optical_space, mechanical_space)
+\end{lstlisting}

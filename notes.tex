@@ -104,14 +104,33 @@
 
 \begin{frame}{Dissipation}
 	Optical decay $\kappa$:
-	$$\sqrt{\kappa} \; \delta a$$
+	$$J_O = \sqrt{\kappa} \; \delta a$$
 	
 	Mechanical resonator with $\gamma$ and a thermal bath at the $n$-th thermal state:
 	$$
+		J_M = 
 		\sqrt{\gamma (n+1)} \;\delta b 
 		+ \sqrt{\gamma n} \; \delta b^\dagger
 	$$
 	\customcite[2.8]{bowen_quantum_2015}
+\end{frame}
+
+\section{Implementation}
+\begin{frame}{Implementation}
+\begin{enumerate}
+	\item truncated Fock Basis: $F_\text{optical} \otimes F_\text{mechanical}$
+	\item definition of $H, J$ with $\delta a \otimes 1$
+	\item Master Time Evolution: 
+	$$
+		\dot\rho = -i[H,\rho] + J\rho J^\dagger - \frac{1}{2} J^\dagger J \rho - \frac{1}{2}\rho J^\dagger J
+	$$
+\end{enumerate}
+\customcite{noauthor_quantumopticsjl_nodate}
+\end{frame}
+
+\begin{frame}{Time evolution}
+	\centering
+	\includegraphics{figures/02 time evolution.pdf}
 \end{frame}
 
 
