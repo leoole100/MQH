@@ -37,14 +37,14 @@ H = H_c + H_m + H_int + H_pump
 C_optical = √κ * δa
 C_mechanical = √(γ_m * (n_th + 1)) * δb
 C_thermal = √(γ_m * n_th) * dagger(δb)
-collapse_ops = [C_optical, C_mechanical, C_thermal]
+J = [C_optical, C_mechanical, C_thermal]
 
 # Initial state: vacuum for fluctuations
 ψ0 = tensor(fockstate(optical_space, 0), fockstate(mechanical_space, 1))
 
 # Time evolution
 times = 0:0.2:50
-@time tout, result = timeevolution.master(times, ψ0, H, collapse_ops);
+@time tout, result = timeevolution.master(times, ψ0, H, J);
 
 # look at timeevolution
 function numberStates(state, index::Integer)
@@ -66,5 +66,5 @@ lines!(aM, times, abs.(expect(dagger(δb)*δb, result)))
 #  colormap=[:transparent, Makie.wong_colors()[1]]
 # )
 
-save("../figures/02 time evolution.pdf", f)
+save("../figures/01 cooling.pdf", f)
 f
