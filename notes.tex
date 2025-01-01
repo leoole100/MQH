@@ -61,30 +61,31 @@
 			g\; a^\dagger a\; (b + b^\dagger)
 		}_{\text{Interaction}}
 		+ \underbrace{
-			i ( E a^\dagger e^{-i\omega_L t} - E^* a e^{i\omega_L t})
+			E ( a e^{i\omega_L t} + a^\dagger e^{-i\omega_L t} )
 		}_{\text{Drive}}
 	$$
 
 	\pause
 	\emph{Rotating Wave Approximation} at $\omega_L$ with $\Delta = \omega_o - \omega_L$, $a \rightarrow ae^{i\omega_L t}$:
 	$$
-		H_\text{RWA} = \Delta\; a^\dagger a + \omega_m\; b^\dagger b - g\; a^\dagger a\; (b^\dagger + b) + i (E a^\dagger - E^* a)
+		H_\text{RWA} = \Delta\; a^\dagger a + \omega_m\; b^\dagger b - g\; a^\dagger a\; (b^\dagger + b) + E ( a + a^\dagger)
 	$$
 
 	\customcite[2.3]{bowen_quantum_2015}
+	\customcite[Optomechanical Cavity]{noauthor_quantumopticsjl_nodate}
 \end{frame}
 
 \begin{frame}{Hamiltonian Linearization}
 	{
 		\color{seegrau}
 		$$
-			H_\text{RWA} = \Delta\; a^\dagger a + \omega_m\; b^\dagger b - g\; a^\dagger a\; (b^\dagger + b) + i (E a^\dagger - E^* a)
+			H_\text{RWA} = \Delta\; a^\dagger a + \omega_m\; b^\dagger b - g\; a^\dagger a\; (b^\dagger + b) + E (a+ a^\dagger)
 		$$
 	}	
 
 	Linearize $a = \alpha + \delta a$, $b = \beta + \delta b$; with $\alpha, \beta$ steady state.\\
 	\begin{align*}
-		H_\text{Interaction} &=
+		H_\text{Interaction} &= 
 		- g\; a^\dagger a\; (b^\dagger + b)\\
 		&\approx -\underbrace{g |\alpha|}_{G} 
 		\left(\delta a + \delta a^\dagger + {\color{seegrau}\mathcal{O}(a^2 + \delta a \delta a^\dagger) }\right)
