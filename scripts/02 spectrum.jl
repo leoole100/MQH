@@ -24,4 +24,5 @@ xlims!(af, low=0 )
 
 lines!(at, times, abs2.(expect(x, result)))
 lines!(af, frequencies, S_xx)
+save("../figures/02 spectrum.pdf", f)
 f

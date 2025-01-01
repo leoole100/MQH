@@ -25,6 +25,7 @@ hilbert_space = optical_space ⊗ mechanical_space
 δb = one(optical_space) ⊗ destroy(mechanical_space)
 
 # define H and J in terms of Parameters
+ω_m = 2π * 1
 function HJ(;
 	ω_m = 2π * 1,      					# Mechanical frequency (Hz)
 	κ = 0.1 * ω_m,        			# Cavity linewidth (Hz)
