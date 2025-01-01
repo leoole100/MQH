@@ -11,5 +11,5 @@ update_theme!(
 		bold="Roboto Bold",
 	),
 )
-halfsize = (2inch, (2/1.618)inch)
-fullsize = (4inch, (4/1.618)inch)
+halfsize = (2inch, (2/1.33)inch)
+fullsize = (4inch, (4/1.33)inch)
