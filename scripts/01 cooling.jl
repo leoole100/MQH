@@ -40,7 +40,7 @@ C_thermal = √(γ_m * n_th) * dagger(δb)
 collapse_ops = [C_optical, C_mechanical, C_thermal]
 
 # Initial state: vacuum for fluctuations
-ψ0 = tensor(fockstate(optical_space, 0), fockstate(mechanical_space, 0))
+ψ0 = tensor(fockstate(optical_space, 0), fockstate(mechanical_space, 1))
 
 # Time evolution
 times = 0:0.2:50
@@ -52,26 +52,19 @@ function numberStates(state, index::Integer)
 	return hcat([diag(normalize(t).data) for t in trace]...)'	
 end
 
-N_opt = [expect(p, dagger(δa)*δa) for p in result]
-N_mech = [expect(p, dagger(δb)*δb) for p in result]
-
 f = Figure(size=fullsize)
-a = Axis(f[1,1], ylabel="Optical")
-hidexdecorations!(a, grid=false)
-ylims!(a, low=0)
+aO = Axis(f[1,1], ylabel="Optical")
+aM = Axis(f[2,1], xlabel="Time in 2π/ωₘ", ylabel="Mechanical")
+hidexdecorations!(aO, grid=false)
+linkxaxes!(aM, aO)
+ylims!(aO, low=0)
+ylims!(aM, low=0)
 
-lines!(times, abs.(N_opt), label="Optical")
-# heatmap!(times, 0:optical_space.N, abs.(numberStates(result, 2)), 
+lines!(aO, times, abs.(expect(dagger(δa)*δa, result)))
+lines!(aM, times, abs.(expect(dagger(δb)*δb, result)))
+#heatmap!(aO, times, 0:optical_space.N, abs.(numberStates(result, 2)), 
 #  colormap=[:transparent, Makie.wong_colors()[1]]
 # )
-
-aO = Axis(f[2,1], xlabel="Time in 2π/ωₘ", ylabel="Mechanical")
-ylims!(aO, low=0)
-linkxaxes!(a, aO)
-lines!(times, abs.(N_mech), label="Mechanical")
-
-rowgap!(f.layout, 10)
-Label(f[:,0], "<n>", rotation=pi/2)
 
 save("../figures/02 time evolution.pdf", f)
 f
