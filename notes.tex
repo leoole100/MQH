@@ -71,7 +71,7 @@
 		H_\text{RWA} = \Delta\; a^\dagger a + \omega_m\; b^\dagger b - g\; a^\dagger a\; (b^\dagger + b) + i (E a^\dagger - E^* a)
 	$$
 
-	\customcite[2.3.1]{bowen_quantum_2015}
+	\customcite[2.3]{bowen_quantum_2015}
 \end{frame}
 
 \begin{frame}{Hamiltonian Linearization}
@@ -81,19 +81,36 @@
 			H_\text{RWA} = \Delta\; a^\dagger a + \omega_m\; b^\dagger b - g\; a^\dagger a\; (b^\dagger + b) + i (E a^\dagger - E^* a)
 		$$
 	}	
+
 	Linearize $a = \alpha + \delta a$, $b = \beta + \delta b$; with $\alpha, \beta$ steady state.\\
 	\begin{align*}
 		H_\text{Interaction} &=
 		- g\; a^\dagger a\; (b^\dagger + b)\\
-		&\approx -\underbrace{g |\alpha|}_{G} (\delta a + \delta a^\dagger)\;(\delta b + \delta b^\dagger + 2 \beta)
-		{\color{seegrau}+ \mathcal{O}(a^2 + \delta a \delta a^\dagger) }
+		&\approx -\underbrace{g |\alpha|}_{G} 
+		\left(\delta a + \delta a^\dagger + {\color{seegrau}\mathcal{O}(a^2 + \delta a \delta a^\dagger) }\right)
+		\left(\delta b + \delta b^\dagger + {\color{seegrau} 2 \beta}\right)
 	\end{align*}
+
+	\pause
+	Therefore for small $G$:
+	$$
+	H \approx \Delta\; \delta a^\dagger \delta a 
+	+ \omega_m \delta b^\dagger \delta b
+	- G (\delta a + \delta a^\dagger)(\delta b + \delta b^\dagger)
+	$$
 
 	\customcite[2.7]{bowen_quantum_2015}
 \end{frame}
 
 \begin{frame}{Dissipation}
+	Optical decay $\kappa$:
+	$$\sqrt{\kappa} \; \delta a$$
 	
+	Mechanical resonator with $\gamma$ and a thermal bath at the $n$-th thermal state:
+	$$
+		\sqrt{\gamma (n+1)} \;\delta b 
+		+ \sqrt{\gamma n} \; \delta b^\dagger
+	$$
 	\customcite[2.8]{bowen_quantum_2015}
 \end{frame}
 
