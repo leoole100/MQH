@@ -5,11 +5,11 @@ cd(@__DIR__)
 # Parameters
 ω_m = 2π * 1      # Mechanical frequency (Hz)
 κ = 0.1 * ω_m        # Cavity linewidth (Hz)
-γ_m = 0.001 * ω_m      # Mechanical damping rate (Hz)
-g0 = 0.01*ω_m        # Single-photon coupling (Hz)
+g0 = 0.1*ω_m        # Single-photon coupling (Hz)
 Δ = ω_m             # Detuning (drive on red sideband)
-drive_amplitude = 100*ω_m  # Drive amplitude (Hz)
-n_th = 0           # Thermal occupation number
+drive_amplitude = 0.2*ω_m  # Drive amplitude (Hz)
+γ_m = 0.003 * ω_m      # Mechanical damping rate (Hz)
+n_th = 2           # Thermal occupation number
 
 
 # Steady-state amplitudes (classical solution)
@@ -20,7 +20,7 @@ G = g0 * abs(α)  # Linearized coupling strength
 
 # Operators
 optical_space = FockBasis(10)
-mechanical_space = FockBasis(10)
+mechanical_space = FockBasis(4)
 hilbert_space = optical_space ⊗ mechanical_space
 
 δa = destroy(optical_space) ⊗ one(mechanical_space)
@@ -43,10 +43,9 @@ collapse_ops = [C_optical, C_mechanical, C_thermal]
 ψ0 = tensor(fockstate(optical_space, 0), fockstate(mechanical_space, 0))
 
 # Time evolution
-times = 0:0.01:3
+times = 0:0.2:50
 @time tout, result = timeevolution.master(times, ψ0, H, collapse_ops);
 
-# %%
 # look at timeevolution
 function numberStates(state, index::Integer)
 	trace = ptrace.(state, index)
@@ -57,16 +56,22 @@ N_opt = [expect(p, dagger(δa)*δa) for p in result]
 N_mech = [expect(p, dagger(δb)*δb) for p in result]
 
 f = Figure(size=fullsize)
-a = Axis(f[1,1], xlabel="Time in 2π/ωₘ", ylabel="n")
+a = Axis(f[1,1], ylabel="Optical")
+hidexdecorations!(a, grid=false)
+ylims!(a, low=0)
 
 lines!(times, abs.(N_opt), label="Optical")
-heatmap!(times, 0:optical_space.N, abs.(numberStates(result, 2)), 
- colormap=[:transparent, Makie.wong_colors()[1]]
-)
+# heatmap!(times, 0:optical_space.N, abs.(numberStates(result, 2)), 
+#  colormap=[:transparent, Makie.wong_colors()[1]]
+# )
 
+aO = Axis(f[2,1], xlabel="Time in 2π/ωₘ", ylabel="Mechanical")
+ylims!(aO, low=0)
+linkxaxes!(a, aO)
 lines!(times, abs.(N_mech), label="Mechanical")
 
-axislegend(position=:rb, padding=0, framevisible=false)
+rowgap!(f.layout, 10)
+Label(f[:,0], "<n>", rotation=pi/2)
 
 save("../figures/02 time evolution.pdf", f)
 f
