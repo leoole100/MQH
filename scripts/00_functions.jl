@@ -67,8 +67,9 @@ function HJC(;
 	g0 = 0.1*ω_m,        				# Single-photon coupling (Hz)
 	Δ = ω_m,            	 			# Detuning (drive on red sideband)
 	drive_amplitude = 0.2*ω_m,  # Drive amplitude (Hz)
-	γ_m = 0.05 * ω_m,      		# Mechanical damping rate (Hz)
+	γ_m = 0.05 * ω_m,      			# Mechanical damping rate (Hz)
 	n_th = 2,           				# Thermal occupation number
+	η = .1											# efficiency of measurement
 )
 
 	H, J = HJ(
@@ -81,7 +82,7 @@ function HJC(;
 		n_th = n_th
 	)
 
-	C = sqrt(κ)*(δa+dagger(δa))
+	C = η*sqrt(κ)*(δa+dagger(δa))
 
 	return H, J, [C]
 end
