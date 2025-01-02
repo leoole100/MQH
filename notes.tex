@@ -2,6 +2,7 @@
 \input{template.tex}
 
 \addbibresource{literature.bib} 
+\DeclareMathOperator{\Tr}{Tr}
 
 \title{Noise Analysis in an Optomechanical Resonance Cavity}
 \author{Leon Oleschko}
@@ -105,11 +106,11 @@
 
 \begin{frame}{Dissipation}
 	Optical decay $\kappa$:
-	$$J_O = \sqrt{\kappa} \; \delta a$$
+	$$L_O = \sqrt{\kappa} \; \delta a$$
 	
 	Mechanical resonator with $\gamma$ and a thermal bath at the $n$-th thermal state:
 	$$
-		J_M = 
+		L_M = 
 		\sqrt{\gamma (n+1)} \;\delta b 
 		+ \sqrt{\gamma n} \; \delta b^\dagger
 	$$
@@ -121,16 +122,16 @@
 \begin{enumerate}
 	\item truncated Fock Basis: $F_\text{optical} \otimes F_\text{mechanical}$
 	\item definition of $H, J$ with $\delta a \otimes 1$
-	\item Master Time Evolution: 
+	\item Time Evolution using the \emph{Lindblad equation}: 
 	$$
-		\dot\rho = -i[H,\rho] + J\rho J^\dagger - \frac{1}{2} J^\dagger J \rho - \frac{1}{2}\rho J^\dagger J
+		\dot\rho = -i[H,\rho] + J\rho J^\dagger - \frac{1}{2} \{J^\dagger J, \rho\}
 	$$
 \end{enumerate}
 \customcite{noauthor_quantumopticsjl_nodate}
 \end{frame}
 
-\section{Results}
-\begin{frame}{Time evolution}
+\section{Free Time Evolution}
+\begin{frame}{Time evolution of $n$}
 	\centering
 	\includegraphics{figures/01 cooling.pdf}
 	\customcite[Optomechanical Cavity]{noauthor_quantumopticsjl_nodate}	
@@ -142,26 +143,42 @@
 	\includegraphics{figures/02 spectrum.pdf}
 \end{frame}
 
-\begin{frame}{Spectrum over drive Power}
-	\centering
-	\includegraphics{figures/03 power spectrum.pdf}
-\end{frame}
-
 \begin{frame}{Power Scaling}
 	\centering
 	\includegraphics{figures/03 power sweep.pdf}
 \end{frame}
 
-\begin{frame}{Expectation}
-	\begin{columns}
-		\column{.5\textwidth}
-		\includegraphics[width=\textwidth]{figures/a.png}
-		\column{.5\textwidth}
-		\includegraphics[width=\textwidth]{figures/b.png}
-	\end{columns}
-	How to add the imprecision noise?
-	\customcite[FIG. 22]{aspelmeyer_cavity_2014}
+\section{Measurment}
+\begin{frame}{Stochastic Master Equation}
+	
+	{
+		\color{seegrau}
+		Lindblad Master Equation:
+		$$\dot\rho = -i[H,\rho] + J\rho J^\dagger - \frac{1}{2} \{J^\dagger J, \rho\}$$
+	}
+
+	$$
+		\dot\rho 
+		= -i[H,\rho] 
+		+ J\rho J^\dagger - \frac{1}{2} \{J^\dagger J, \rho\} 
+		+ \left(C\rho + \rho C^\dagger - \Tr(C\rho + \rho C^\dagger)\right)\xi(t)
+	$$
+
+	Let's look at the Quadrature $C = \eta\sqrt{\kappa}\;(\delta a + \delta a^\dagger)$
+
+	\customcite[Stochastic Master equation, Quantum Zeno Effect]{noauthor_quantumopticsjl_nodate}
 \end{frame}
+
+% \begin{frame}{Expectation}
+% 	\begin{columns}
+% 		\column{.5\textwidth}
+% 		\includegraphics[width=\textwidth]{figures/a.png}
+% 		\column{.5\textwidth}
+% 		\includegraphics[width=\textwidth]{figures/b.png}
+% 	\end{columns}
+% 	How to add the imprecision noise?
+% 	\customcite[FIG. 22]{aspelmeyer_cavity_2014}
+% \end{frame}
 
 {
 	\setbeamercolor{background canvas}{bg=black}

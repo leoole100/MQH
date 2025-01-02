@@ -16,6 +16,7 @@ fullsize = (4inch, (4/1.33)inch)
 
 
 # Define the basis
+using QuantumOptics
 optical_space = FockBasis(10)
 mechanical_space = FockBasis(4)
 hilbert_space = optical_space ⊗ mechanical_space
@@ -48,7 +49,7 @@ function HJ(;
 	H_c = Δ * dagger(δa) * δa
 	H_m = ω_m * dagger(δb) * δb
 	H_int = -G * (δa + dagger(δa)) * (δb + dagger(δb))
-	H_pump = drive_amplitude * (δa + dagger(δa))
+	H_pump = im*drive_amplitude * (dagger(δa) - δa)
 	H = H_c + H_m + H_int + H_pump
 
 	# Collapse operators
@@ -58,4 +59,29 @@ function HJ(;
 	J = [C_optical, C_mechanical, C_thermal]
 
 	return H, J
+end
+
+function HJC(;
+	ω_m = 2π * 1,      					# Mechanical frequency (Hz)
+	κ = 0.1 * ω_m,        			# Cavity linewidth (Hz)
+	g0 = 0.1*ω_m,        				# Single-photon coupling (Hz)
+	Δ = ω_m,            	 			# Detuning (drive on red sideband)
+	drive_amplitude = 0.2*ω_m,  # Drive amplitude (Hz)
+	γ_m = 0.05 * ω_m,      		# Mechanical damping rate (Hz)
+	n_th = 2,           				# Thermal occupation number
+)
+
+	H, J = HJ(
+		ω_m = ω_m,
+		κ = κ,
+		g0 = g0,
+		Δ = Δ,
+		drive_amplitude = drive_amplitude,
+		γ_m = γ_m,
+		n_th = n_th
+	)
+
+	C = sqrt(κ)*(δa+dagger(δa))
+
+	return H, J, [C]
 end
