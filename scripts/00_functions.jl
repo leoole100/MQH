@@ -18,7 +18,7 @@ fullsize = (4inch, (4/1.33)inch)
 # Define the basis
 using QuantumOptics
 optical_space = FockBasis(10)
-mechanical_space = FockBasis(4)
+mechanical_space = FockBasis(5)
 hilbert_space = optical_space ⊗ mechanical_space
 
 # and the commonly used operators
