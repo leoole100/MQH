@@ -6,7 +6,7 @@ x = δa + dagger(δa)
 ψ0 = tensor(fockstate(optical_space, 0), fockstate(mechanical_space, 0))
 
 function calc_S_xx(HJC; time=20)
-	times_full = 0:0.25:time
+	times_full = 0:0.01:time
 	
 	tout, result_full = stochastic.master(times_full, ψ0, HJC..., dt=1e-3)
 	
@@ -28,7 +28,7 @@ function S_xx_res(HJC; time=20)
 end
 
 # %%
-times = 0:0.25:20
+times = 0:0.01:20
 
 c = HJC(
 	ω_m = 2π * 1,      					# Mechanical frequency (Hz)
@@ -39,6 +39,17 @@ c = HJC(
 	γ_m = 0.05 * ω_m,      		# Mechanical damping rate (Hz)
 	n_th = 0,           				# Thermal occupation number
 	η=.1
+)
+
+c = HJC(
+	ω_m = 2π * 1,      					# Mechanical frequency (Hz)
+	κ = 1.0 * ω_m,        			# Cavity linewidth (Hz)
+	g0 = 0.05*ω_m,        				# Single-photon coupling (Hz)
+	Δ = ω_m,            	 			# Detuning (drive on red sideband)
+	drive_amplitude = 0.01*ω_m,  # Drive amplitude (Hz)
+	γ_m = 0.01 * ω_m,      		# Mechanical damping rate (Hz)
+	n_th = 0.1,           				# Thermal occupation number
+	η=1
 )
 	
 tout, results = timeevolution.master(times, ψ0, c[1:2]...)
@@ -66,14 +77,14 @@ drive_amplitude = range(0, .5, 3)
 end
 axislegend("Drive Strength")
 ylims!(a, low=0)
-xlims!(a, low=0)
+xlims!(a, 0, 2)
 save("../figures/04 power spectrum.pdf", f)
 f
 
 #%%
 function power_sweep(n_th)
-	drive_amplitude = logrange(1e-12, .5, 10)
-	S = [S_xx_res(HJC(drive_amplitude=a.*ω_m, n_th=n_th, η=1e-3); time=20) for a in drive_amplitude]
+	drive_amplitude = logrange(1e-5, 10, 10)
+	S = [S_xx_res(HJC(drive_amplitude=a.*ω_m, n_th=n_th, η=1); time=20) for a in drive_amplitude]
 	return drive_amplitude, S
 end
 

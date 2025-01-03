@@ -33,10 +33,10 @@ function HJ(;
 	g0 = 0.1*ω_m,        				# Single-photon coupling (Hz)
 	Δ = ω_m,            	 			# Detuning (drive on red sideband)
 	drive_amplitude = 0.2*ω_m,  # Drive amplitude (Hz)
-	γ_m = 0.05 * ω_m,      		# Mechanical damping rate (Hz)
+	γ_m = 0.1 * ω_m,      		# Mechanical damping rate (Hz)
 	n_th = 2,           				# Thermal occupation number
 	δa = δa,
-	δb = δb,
+	δb = δb
 )
 
 	# Steady-state amplitudes (classical solution)
