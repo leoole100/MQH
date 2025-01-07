@@ -11,9 +11,9 @@ P = im*(dagger(δb)-δb)
 n = dagger(δa)*δa
 m = dagger(δb)*δb
 
-H0(;Δ=-2π, ω=2π, G=0.1) = Δ/2*(X^2 + Y^2) + ω*(Q^2 + P^2) + 2*G*X*Q
+H0(;Δ=2π, ω=2π, G=0.1) = Δ/2*(X^2 + Y^2) + ω*(Q^2 + P^2) + 2*G*X*Q
 Hdrive(;E=1) = E*X
-H(;Δ=-2π, ω=2π, G=0.1, E=1) = H0(Δ=Δ, ω=ω, G=G) + Hdrive(E=E)
+H(;Δ=2π, ω=2π, G=0.1, E=1) = H0(Δ=Δ, ω=ω, G=G) + Hdrive(E=E)
 
 J(;κ=1, γ=1,	n=0.1) = √κ * δa + √(γ*(n+1)) * δb + √(γ*n) * dagger(δb)
 
@@ -24,19 +24,20 @@ C(;κ=1, η=1, X=X) = η*√κ*X
 ρ0 = dm(ψ0)
 
 # %%
-function plot_wigner(ρ, index)
-	t = ptrace(ρ0, index)
-	x = -(size(t, 1)-1) : size(t, 1)-1
-	y = -(size(t, 2)-1) : size(t, 2)-1
+function plot_wigner(ρ, index, s=Inf)
+	t = ptrace(ρ, index)
+	s = minimum([s, (size(t, 1)-1)])
+	x = -s:s
+	y = -s:s
 	return x, y, wigner(t, x, y)
 end
 
 function plot_wigner(ρ)
 	f = Figure()
 	a = Axis(f[1,1], title="Mechanical", aspect=DataAspect(), xlabel="Q", ylabel="P")
-	heatmap!(plot_wigner(ρ, 1)..., colormap=:diverging, colorrange=(-.01,.01))
+	heatmap!(plot_wigner(ρ, 1, 5)..., colormap=:diverging, colorrange=(-.01,.01))
 	a = Axis(f[1,2], title="Optical", aspect=DataAspect(), xlabel="X", ylabel="Y")
-	heatmap!(plot_wigner(ρ, 2)..., colormap=:diverging, colorrange=(-.01,.01))
+	heatmap!(plot_wigner(ρ, 2, 5)..., colormap=:diverging, colorrange=(-.01,.01))
 	f
 end
 
@@ -94,7 +95,7 @@ function simulation(;κ=.5, η=.1, E=1)
 	return [ρ, ρs]
 end
 
-drives = logrange(.1, 10, length=10)
+drives = logrange(.5, 10, length=10)
 # @time sims = hcat([simulation(E=E) for E in drives]...);
 @time sims = hcat(tmap(E->simulation(E=E), drives)...);
 
