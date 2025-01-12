@@ -11,9 +11,7 @@ P = im*(dagger(δb)-δb)
 n = dagger(δa)*δa
 m = dagger(δb)*δb
 
-H0(;Δ=2π, ω=2π, G=0.1) = Δ/2*(X^2 + Y^2) + ω*(Q^2 + P^2) + 2*G*X*Q
-Hdrive(;E=1) = E*X
-H(;Δ=2π, ω=2π, G=0.1, E=1) = H0(Δ=Δ, ω=ω, G=G) + Hdrive(E=E)
+H(;Δ=2π, ω=2π, G=0.1) = Δ/2*(X^2 + Y^2) + ω*(Q^2 + P^2) + 2*G*X*Q
 
 J(;κ=1, γ=1,	n=0.1) = √κ * δa + √(γ*(n+1)) * δb + √(γ*n) * dagger(δb)
 
@@ -22,6 +20,14 @@ C(;κ=1, η=1, X=X) = η*√κ*X
 # ψ0 = tensor(fockstate(optical_space, 0), fockstate(mechanical_space, 0))
 ψ0 = tensor(coherentstate(optical_space, 0), coherentstate(mechanical_space, 0))
 ρ0 = dm(ψ0)
+
+function freq_fft(s, fs=1)
+	S = fft(s)
+	freq = fftfreq(length(s), fs)
+	S = S[freq.>0]
+	freq = freq[freq.>0]
+	return freq, S
+end
 
 # %%
 function plot_wigner(ρ, index, s=Inf)
@@ -51,7 +57,7 @@ plot_wigner(ρ0)
 times = 0:.1:10
 @time tout, ρ = timeevolution.master(times, ψ0, H(), [J(κ=κ)]);
 # add the measurement
-@time tout, ρs = stochastic.master(times, ψ0, H(), [J(κ=κ)], [C(κ=κ, η=η)], dt=.0001);
+@time tout, ρs = stochastic.master(times, ψ0, H(), [J(κ=κ)], [C(κ=κ, η=η)], dt=.0001, noise=W);
 
 #%%
 # look at the time evolution
@@ -65,14 +71,6 @@ save("../figures/05 time evolution.pdf", f)
 f
 
 # %%
-# frequency
-function freq_fft(s, fs=1)
-	S = fft(s)
-	freq = fftfreq(length(s), fs)
-	S = S[freq.>0]
-	freq = freq[freq.>0]
-	return freq, S
-end
 
 f = Figure(size=fullsize)
 a = Axis(f[1,1], ylabel="S_Y", xlabel="f")
@@ -88,16 +86,16 @@ f
 
 # %%
 # let's sweep the power
-function simulation(;κ=.5, η=.1, E=1)
+function simulation(;κ=.5, η=.1, G=1)
 	times = 0:.1:10
-	tout, ρ = timeevolution.master(times, ψ0, H(E=E), [J(κ=κ)]);
-	tout, ρs = stochastic.master(times, ψ0, H(E=E), [J(κ=κ)], [C(κ=κ, η=η)], dt=.0001);
+	tout, ρ = timeevolution.master(times, ψ0, H(G=G), [J(κ=κ)]);
+	tout, ρs = stochastic.master(times, ψ0, H(G=G), [J(κ=κ)], [C(κ=κ, η=η)], dt=.0001);
 	return [ρ, ρs]
 end
 
 drives = logrange(.5, 10, length=10)
 # @time sims = hcat([simulation(E=E) for E in drives]...);
-@time sims = hcat(tmap(E->simulation(E=E), drives)...);
+@time sims = hcat(tmap(G->simulation(G=G), drives)...);
 
 
 # %%
@@ -110,9 +108,11 @@ end
 S = S_max.(sims)
 
 f = Figure(size=fullsize)
-a = Axis(f[1,1], ylabel="Sₓ max", xlabel="drive strength E", xscale=log10, yscale=log10)
+a = Axis(f[1,1], ylabel="Sₓ max", xlabel="drive strength E", 
+	# xscale=log10, yscale=log10
+)
 scatterlines!(drives, S[1,:], label="master")
 scatterlines!(drives, S[2,:], label="stochastic")
-axislegend(position = :rb)
+axislegend(position = :lt)
 save("../figures/05 power.pdf", f)
 f
