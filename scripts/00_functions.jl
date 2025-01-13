@@ -1,5 +1,7 @@
+cd(@__DIR__)
+
 # make figure style
-using Makie
+using CairoMakie
 inch = 96
 pt = 4/3
 cm = inch/2.54
@@ -17,6 +19,7 @@ fullsize = (4inch, (4/1.33)inch)
 
 # Define the basis
 using QuantumOptics
+
 optical_space = FockBasis(10)
 mechanical_space = FockBasis(5)
 hilbert_space = optical_space ⊗ mechanical_space
@@ -25,64 +28,27 @@ hilbert_space = optical_space ⊗ mechanical_space
 δa = destroy(optical_space) ⊗ one(mechanical_space)
 δb = one(optical_space) ⊗ destroy(mechanical_space)
 
-# define H and J in terms of Parameters
-ω_m = 2π * 1
-function HJ(;
-	ω_m = 2π * 1,      					# Mechanical frequency (Hz)
-	κ = 0.1 * ω_m,        			# Cavity linewidth (Hz)
-	g0 = 0.1*ω_m,        				# Single-photon coupling (Hz)
-	Δ = ω_m,            	 			# Detuning (drive on red sideband)
-	drive_amplitude = 0.2*ω_m,  # Drive amplitude (Hz)
-	γ_m = 0.1 * ω_m,      		# Mechanical damping rate (Hz)
-	n_th = 2,           				# Thermal occupation number
-	δa = δa,
-	δb = δb
-)
+# The unites hamiltonian is given:
+X = δa + dagger(δa)
+Y = im*(dagger(δa)-δa)
+Q = δb + dagger(δb)
+P = im*(dagger(δb)-δb)
 
-	# Steady-state amplitudes (classical solution)
-	α = drive_amplitude / (κ/2 - 1im * Δ)  # Steady-state optical field
+n = dagger(δa)*δa
+m = dagger(δb)*δb
 
-	# Effective coupling
-	G = g0 * abs(α)  # Linearized coupling strength
-	
-	# Linearized Hamiltonian
-	H_c = Δ * dagger(δa) * δa
-	H_m = ω_m * dagger(δb) * δb
-	H_int = -G * (δa + dagger(δa)) * (δb + dagger(δb))
-	H_pump = im*drive_amplitude * (dagger(δa) - δa)
-	H = H_c + H_m + H_int + H_pump
+H(;ω=2π, Δ=-ω, G=0.1, kwargs...) = Δ/2*(X^2 + Y^2) + ω*(Q^2 + P^2) + 2*G*X*Q
+J(;κ=1, γ=1,	n=0.1, kwargs...) = √κ * δa + √(γ*(n+1)) * δb + √(γ*n) * dagger(δb)
+C(;κ=1, η=1, X=X, kwargs...) = η*√κ*X
 
-	# Collapse operators
-	C_optical = √κ * δa
-	C_mechanical = √(γ_m * (n_th + 1)) * δb
-	C_thermal = √(γ_m * n_th) * dagger(δb)
-	J = [C_optical, C_mechanical, C_thermal]
+# ψ0 = tensor(fockstate(optical_space, 0), fockstate(mechanical_space, 0))
+ψ0 = tensor(coherentstate(optical_space, 0), coherentstate(mechanical_space, 0))
 
-	return H, J
-end
-
-function HJC(;
-	ω_m = 2π * 1,      					# Mechanical frequency (Hz)
-	κ = 0.1 * ω_m,        			# Cavity linewidth (Hz)
-	g0 = 0.1*ω_m,        				# Single-photon coupling (Hz)
-	Δ = ω_m,            	 			# Detuning (drive on red sideband)
-	drive_amplitude = 0.2*ω_m,  # Drive amplitude (Hz)
-	γ_m = 0.05 * ω_m,      			# Mechanical damping rate (Hz)
-	n_th = 2,           				# Thermal occupation number
-	η = .1											# efficiency of measurement
-)
-
-	H, J = HJ(
-		ω_m = ω_m,
-		κ = κ,
-		g0 = g0,
-		Δ = Δ,
-		drive_amplitude = drive_amplitude,
-		γ_m = γ_m,
-		n_th = n_th
-	)
-
-	C = η*sqrt(κ)*(δa+dagger(δa))
-
-	return H, J, [C]
+using FFTW
+function freq_fft(s, fs=1)
+	S = fft(s)
+	freq = fftfreq(length(s), fs)
+	S = S[freq.>0]
+	freq = freq[freq.>0]
+	return freq, S
 end
