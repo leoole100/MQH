@@ -2,15 +2,15 @@ include("00 functions.jl")
 
 # %%
 params = Dict(
-	:κ=>.1,
-	:η=>1,
-	:n=>.01,
-	:m=>.01,
-	:E=>1,
-	:γ=>.1,
-	:g=>1
+	:κ=>0.1,
+	:η=>0.1,
+	:n=>0.1,
+	:m=>0.1,
+	:γ=>0.1,
+	:g=>0.1
 )
-drives = logrange(1e-3, 1e1, length=10)
+drives = logrange(1e-4, 1e1, length=10)
+C(;κ=1, η=1, X=X, kwargs...) = η*√κ*Q
 
 # let's sweep the power
 function simulation(;E=1., params=params)
@@ -29,7 +29,7 @@ using ThreadTools
 
 # %%
 # calculate the peak intensity
-function S_max(s, O=Q)
+function S_max(s, O=C(;params...))
 	freq, S = freq_fft(expect(O, s))
 	return maximum(abs.(S))
 end
@@ -37,11 +37,11 @@ end
 S = S_max.(sims) 
 
 f = Figure(size=fullsize)
-a = Axis(f[1,1], ylabel="Sₓ max", xlabel="drive strength E", 
+a = Axis(f[1,1], ylabel="S_C max", xlabel="drive strength E", 
 	xscale=log10, yscale=log10
 )
 scatterlines!(drives, S[1,:], label="master")
 scatterlines!(drives, S[2,:], label="stochastic")
-axislegend(position = :rb)
+axislegend(position = :ct, framevisible=false)
 save("../figures/02 power.pdf", f)
 f
