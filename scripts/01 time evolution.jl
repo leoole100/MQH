@@ -1,10 +1,8 @@
-include("00_functions.jl")
-
-
+include("00 functions.jl")
 
 # %%
 
-ψ0 = tensor(coherentstate(optical_space, 0), coherentstate(mechanical_space, .5))
+ψ0 = tensor(coherentstate(optical_space, 0), coherentstate(mechanical_space, 0))
 
 # plot the initial state
 function plot_wigner(ρ, index, s=Inf)
@@ -28,27 +26,30 @@ plot_wigner(dm(ψ0))
 
 # %%
 params = Dict(
-	:κ=>.5,
-	:η=>.1,
-	:n=>1
+	:κ=>.1,
+	:η=>1,
+	:n=>.1,
+	:m=>.1,
+	:E=>1,
+	:γ=>.1,
+	:g=>1
 )
 
 # make the timeevolution
-times = 0:.1:10
+times = 0:.1:100
 @time tout, ρ = timeevolution.master(times, ψ0, H(;params...), [J(;params...)]);
 # add the measurement
-@time tout, ρs = stochastic.master(times, ψ0, H(;params...), [J(;params...)], [C(;params...)], dt=.0001);
-# %%
-
+# @time tout, ρs = stochastic.master(times, ψ0, H(;params...), [J(;params...)], [C(;params...)], dt=.0001);
+#%%
 # look at the time evolution
 f = Figure(size=fullsize)
-a = Axis(f[1,1], ylabel="X", xlabel="T")
-for (p, l) in zip([ρ, ρs], ["master", "stochastic"])
-# for (p, l) in zip([ρ], ["master", "stochastic"])
+a = Axis(f[1,1], ylabel="Q", xlabel="T")
+# for (p, l) in zip([ρs, ρ], ["stochastic", "master"])
+for (p, l) in zip([ρ], ["master", "stochastic"])
 	lines!(times, abs.(expect(Q, p)), label=l)
 end
-axislegend()
-# save("../figures/01 time evolution.pdf", f)
+axislegend(position=:lt)
+save("../figures/01 time evolution.pdf", f)
 f
 
 # %%

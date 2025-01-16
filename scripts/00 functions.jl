@@ -37,9 +37,12 @@ P = im*(dagger(δb)-δb)
 n = dagger(δa)*δa
 m = dagger(δb)*δb
 
-H(;ω=2π, Δ=-ω, G=0.1, kwargs...) = Δ/2*(X^2 + Y^2) + ω*(Q^2 + P^2) + 2*G*X*Q
-J(;κ=1, γ=1,	n=0.1, kwargs...) = √κ * δa + √(γ*(n+1)) * δb + √(γ*n) * dagger(δb)
-C(;κ=1, η=1, X=X, kwargs...) = η*√κ*X
+# H(;ω=2π, Δ=-ω, G=0.1, kwargs...) = Δ/2*(X^2 + Y^2) + ω*(Q^2 + P^2) + 2*G*X*Q
+H(;ω=2π, Δ=-ω, g=0.1, E=1, kwargs...) = Δ*n+ω*m-g*n*Q+E*X
+# J(;κ=1, γ=1,	m=0.1, kwargs...) = √κ * δa + √(γ*(m+1)) * δb + √(γ*m) * dagger(δb)
+J(;κ=1, γ=1,	n=0, m=0.1, kwargs...) = √(κ*(n+1)) * δa + √(κ*n) * dagger(δa) + √(γ*(m+1)) * δb + √(γ*m) * dagger(δb)
+# C(;κ=1, η=1, X=X, kwargs...) = η*√κ*X
+C(;κ=1, η=1, X=X, kwargs...) = η*√κ*δa
 
 # ψ0 = tensor(fockstate(optical_space, 0), fockstate(mechanical_space, 0))
 ψ0 = tensor(coherentstate(optical_space, 0), coherentstate(mechanical_space, 0))
