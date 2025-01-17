@@ -222,6 +222,59 @@ Time Evolution using the \emph{Stochastic Master Equation}
 	\end{columns}
 \end{frame}
 
+\begin{frame}{Analytical Solution}
+	\begin{columns}
+		\column{.5\textwidth}
+		$$
+		\overline S_\text{det}(\omega)
+		= \frac{1}{8 \eta \Gamma |C_\text{eff}|}
+		+ 2 \Gamma |\chi(\omega)|^2 |C_\text{eff}|
+		$$
+		$C_\text{eff}(\omega) = \frac{4 G^2}{\kappa \Gamma(1-2 i\omega /\kappa)^2}$\\
+		$\chi(\omega) = \frac{\Omega}{\Omega^2 - \omega^2 - i\omega\gamma}$ \\
+		$\eta$: Detection efficiency\\
+		$\Gamma = \gamma$: Damping of oscillator\\
+		
+		\tiny 
+		$$
+		\overline S_\text{det}(\omega)
+		= \frac{\kappa\Gamma |1-2i\omega/\kappa|}{8 \eta \Gamma 4 g^2 |\alpha|^2}
+		+ 2 \Gamma \frac{\Omega^2}{|\Omega^2-\omega^2-i\omega\gamma|^2}
+		\frac{4 g^2 |\alpha|^2}{\kappa \Gamma(1-2 i\omega /\kappa)^2}
+		$$
+		
+		\customcite[eq. 3.51]{bowen_quantum_2015}
+
+		\column{.5\textwidth}
+		\small\centering
+		\includegraphics[width=\textwidth]{figures/3.5.png}
+		$P/P^\text{SQL} = \{0.1, 0.4, 1, 4, 10\}$
+		\customcite[Fig. 3.5]{bowen_quantum_2015}
+
+	\end{columns}
+\end{frame}
+
+\begin{frame}{Parameter Space}
+	\begin{center}
+		\begin{tabular}{ rl }
+			Parameter & Searched Values\\
+			\hline
+			$\kappa$ & $0.1 \dots 1$\\
+			$\gamma$ & $0.1 \dots 1$\\
+			$g$ & $0.1 \dots 1$\\
+			$n_T$ & $0.001 \dots 1$\\
+			$m_T$ & $0.001 \dots 1$\\
+			$\Delta$ & $-\omega, \omega$\\
+			$C$ & $Q, \delta a$\\
+			$S_\Box$ & $Q, C$\\
+		 \end{tabular}
+	\end{center}
+
+	With multiple compute hours per run this space is too large.
+
+	\customcite[Optomechanical Cavity]{kramer_quantumopticsjl_2024}
+\end{frame}
+
 \begin{frame}{How to procede?}
 	Pivot to Quantum Zeno Effect\\
 	{\tiny\cite{kramer_quantumopticsjl_2024}, Quantum Zeno Effect}
