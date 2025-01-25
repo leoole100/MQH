@@ -124,19 +124,15 @@
 
 	\small
 	The drive $EX$ is not getting lost in linearization.\\
-	There is no point in the linearization if solved numerically.
-
-	Do I understand it correctly?
+	There is no point in the simplification if solved numerically.
 \end{frame}
 
 \begin{frame}{Dissipation}
-	As Lindblad jump operator $L$ with a coupling to the $n_T, m_T$ thermal mode with coupling strengths $\kappa, \gamma$
-
-	Optical:
+	Optical decay $\kappa$:
 	$$L = \sqrt{\kappa (n_T+1)} \;\delta a 
 		+ \sqrt{\kappa n_T} \; \delta a^\dagger$$
 	
-	Mechanical:
+	Mechanical resonator with $\gamma$ and a thermal bath at the $n$-th thermal state:
 	$$
 		+ \sqrt{\gamma (m_T+1)} \;\delta b 
 		+ \sqrt{\gamma m_T} \; \delta b^\dagger
@@ -144,6 +140,22 @@
 	\customcite[2.8]{bowen_quantum_2015}
 \end{frame}
 
+\section{Implementation}
+\begin{frame}{Implementation}
+truncated Fock Basis: $F_\text{optical} \otimes F_\text{mechanical}$
+
+definition of $H, J$ with $\delta a \otimes 1$
+
+$\psi(0) = |0\rangle \otimes |0\rangle$
+
+Time Evolution using the \emph{Lindblad equation}: 
+$$
+	\dot\rho = -i[H,\rho] + J\rho J^\dagger - \frac{1}{2} \{J^\dagger J, \rho\}
+$$
+\customcite{kramer_quantumopticsjl_2024}
+\end{frame}
+
+\section{Measurement}
 \begin{frame}{Continous measurement}
 	\textcolor{seegrau}{
 		Lindblad Master Equation:
@@ -158,79 +170,54 @@
 		+ \left(C\rho + \rho C^\dagger - \Tr(C\rho + \rho C^\dagger)\right)\xi(t)
 	$$
 
-	Let's measure the Quadrature $C = \eta\sqrt{\kappa}\;(\delta a + \delta a^\dagger)$\\
-	Or the non hermitian $C = \eta \sqrt{\kappa}\; \delta a$
+	Let's look at the Quadrature $C = \eta\sqrt{\kappa}\;(\delta a + \delta a^\dagger)$
 
 	\customcite[Stochastic Master equation, Quantum Zeno Effect]{kramer_quantumopticsjl_2024}
 	\customcite{jacobs_straightforward_2006}
 \end{frame}
 
-\begin{frame}{Harmonic Osciallator}
-	For stability $dt \ll 1/\omega$, therefore much longer compute time (2s).
-	\includegraphics{figures/03 harmonic oscillator.pdf}
+\begin{frame}{Time Evolution}
+	\centering
+	\includegraphics{figures/01 time evolution.pdf}
 \end{frame}
 
-\section{Implementation}
-\begin{frame}{Implementation}
-truncated Fock Basis: $F_\text{optical} \otimes F_\text{mechanical}$
-
-definition of $H, J$ with $\delta a \otimes 1$
-
-$\psi(0) = |0\rangle \otimes |0\rangle$
-
-Time Evolution using the \emph{Stochastic Master Equation}
-\customcite{kramer_quantumopticsjl_2024}
+\begin{frame}{Spectrum}
+	\centering
+	\includegraphics{figures/01 time evolution spectrum.pdf}
 \end{frame}
-
-% \begin{frame}{Time Evolution}
-% 	\centering
-% 	\includegraphics{figures/01 time evolution.pdf}
-% \end{frame}
-
-% \begin{frame}{Spectrum}
-% 	\centering
-% 	\includegraphics{figures/01 time evolution spectrum.pdf}
-% \end{frame}
 
 \begin{frame}{Power Dependence $\sim$ G}
 	\includegraphics{figures/02 power.pdf}
 	\\\small
-	Took \textbf{3h} of compute time to be stable!
+	Took $\approx1$ min of compute time. Why is the SME so much slower? True Random Values?
 \end{frame}
 
 \begin{frame}{Expectation}
 	\begin{columns}
-		% \column{.3\textwidth}
-		% $$S_x = S_x^\text{imp} + S_x^\text{ba} + S_x^\text{zpf}$$
-		% \small
-		% $S_x^\text{imp} \propto P^{-1} \omega^0$: Imprecision / Shot noise
-
-		% $S_x^\text{ba} \propto P$: Back action
-		
-		% $S_x^\text{zpf}$: Zero Point Fluctuation
+		\column{.4\textwidth}
+		$$S_x = S_x^\text{imp} + S_x^\text{ba} + S_x^\text{zpf}$$
+		\small
+		$S_x^\text{imp} \propto P^{-1} \omega^0$: Imprecision / Shot noise\\
+		$S_x^\text{ba} \propto P$: Back action\\
+		$S_x^\text{zpf}$: Zero Point Fluctuation
 
 		\column{.6\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{figures/Fig 1.png}
-		\customcite[Fig. 1]{teufel_nanomechanical_2009}
-
-		\column{.4\textwidth}
-		\small\centering
-		\includegraphics[width=\textwidth]{figures/3.5.png}
-		$P/P^\text{SQL} = \{0.1, 0.4, 1, 4, 10\}$
-		\customcite[Fig. 3.5]{bowen_quantum_2015}
 	\end{columns}
+	\customcite[Fig. 1]{teufel_nanomechanical_2009}
 \end{frame}
 
-\begin{frame}{Analytical Solution}
+\begin{frame}{Uncerstanding $S_\text{det}(\omega, P_\text{in})$}
 	\begin{columns}
 		\column{.5\textwidth}
+		Where is the power dependence?
 		$$
 		\overline S_\text{det}(\omega)
 		= \frac{1}{8 \eta \Gamma |C_\text{eff}|}
 		+ 2 \Gamma |\chi(\omega)|^2 |C_\text{eff}|
 		$$
-		$C_\text{eff}(\omega) = \frac{4 G^2}{\kappa \Gamma(1-2 i\omega /\kappa)^2}$\\
+		$C_\text{eff}(\omega) = \frac{4 g^2}{\kappa \Gamma(1-2 i\omega /\kappa)^2}$\\
 		$\chi(\omega) = \frac{\Omega}{\Omega^2 - \omega^2 - i\omega\gamma}$ \\
 		$\eta$: Detection efficiency\\
 		$\Gamma = \gamma$: Damping of oscillator\\
@@ -238,9 +225,9 @@ Time Evolution using the \emph{Stochastic Master Equation}
 		\tiny 
 		$$
 		\overline S_\text{det}(\omega)
-		= \frac{\kappa\Gamma |1-2i\omega/\kappa|}{8 \eta \Gamma 4 g^2 |\alpha|^2}
+		= \frac{\kappa\Gamma |1-2i\omega/\kappa|}{8 \eta \Gamma 4 g^2}
 		+ 2 \Gamma \frac{\Omega^2}{|\Omega^2-\omega^2-i\omega\gamma|^2}
-		\frac{4 g^2 |\alpha|^2}{\kappa \Gamma(1-2 i\omega /\kappa)^2}
+		\frac{4 g^2}{\kappa \Gamma(1-2 i\omega /\kappa)^2}
 		$$
 		
 		\customcite[eq. 3.51]{bowen_quantum_2015}
@@ -254,41 +241,17 @@ Time Evolution using the \emph{Stochastic Master Equation}
 	\end{columns}
 \end{frame}
 
-\begin{frame}{Parameter Space}
-	\begin{center}
-		\begin{tabular}{ rl }
-			Parameter & Searched Values\\
-			\hline
-			$\kappa$ & $0.1 \dots 1$\\
-			$\gamma$ & $0.1 \dots 1$\\
-			$g$ & $0.1 \dots 1$\\
-			$n_T$ & $0.001 \dots 1$\\
-			$m_T$ & $0.001 \dots 1$\\
-			$\Delta$ & $-\omega, \omega$\\
-			$C$ & $Q, \delta a$\\
-			$S_\Box$ & $Q, C$\\
-		 \end{tabular}
-	\end{center}
-
-	With multiple compute hours per run this space is too large.
-
-	\customcite[Optomechanical Cavity]{kramer_quantumopticsjl_2024}
+\begin{frame}
+	\centering
+	Looking for a source that derives $S_\text{det}(\omega, P)$?\\
+	\small
+	Or even states $S_\text{det}(\omega, P)$.
 \end{frame}
 
-\begin{frame}{How to procede?}
-	Pivot to Quantum Zeno Effect\\
-	{\tiny\cite{kramer_quantumopticsjl_2024}, Quantum Zeno Effect}
-
-	Reduce the complexity?\\
-	{\tiny Carmichael, An open systems approach to quantum optics: Lectures presented at the Université Libre de Bruxelles, 2009\\
-	\cite{kramer_quantumopticsjl_2024}, Stochastic Schrödinger equation}
-
-	\textcolor{seegrau}{Go into depth with the SME}
-	
-	\textcolor{seegrau}{
-		Adding Poisson Process to detection\\
-		{\tiny\cite{jacobs_straightforward_2006}, 10.2}
-	}
+\begin{frame}{Or, selecting a simpler system?}
+	\includegraphics[width=\textwidth]{figures/Fig. 8.4.jpg}
+	Not simulating the detector, just the oscillator and adding the Backaction in the measurement operator \dots
+	\customcite[Fig. 8.4]{vladimir_braginsky_quantum_1992}
 \end{frame}
 
 
