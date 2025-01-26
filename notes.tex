@@ -33,16 +33,29 @@
 
 \section{Example}
 
-\begin{frame}{Rabi Oscillations}
-	
+\begin{frame}{Rabi Oscillations Setup}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\includegraphics{figures/rabi.pdf}
+		\end{center}
+
+		\column{.5\textwidth}
+		\begin{align*}
+			H &= g\; (a^\dagger a) (\sigma^+ \sigma^-) &\text{Coupling}\\
+			&+ g_s\; (\sigma^+ + \sigma^-) &\text{Magnetic}\\
+			&- i \beta (a^\dagger - a) &\text{Optic}\\
+			J &= \kappa\; a &\text{Dissipation}\\
+			C &= \sqrt{\kappa\eta}\; a &\text{Measurement}
+		\end{align*}
+		
+	\end{columns}
+
+	\customcite{nielsen_stochastic_2008}
 \end{frame}
 
-\begin{frame}{Single Measurement}
-	
-\end{frame}
-
-\begin{frame}{Continous Measurement}
-	
+\begin{frame}{Time evolution}
+	\includegraphics{figures/02 rabi w measurement.pdf}
 \end{frame}
 
 
