@@ -27,12 +27,6 @@ function free_and_measured(time_array, measure_time; H, C, ψ0)
 	return free, measured
 end
 
-function plot_sim(measured, O=sigmaz(basis))
-	obs = real.(expect_uncert(O, measured[2]))
-	band!(measured[1], obs[1]-obs[2], obs[1]+obs[2], alpha=.2)
-	return lines!(measured[1], obs[1])
-end
-
 sims = free_and_measured(0:0.01:2, 1,
 	H = dense(sigmaz(basis)),
 	C = sigmaz(basis),
@@ -44,7 +38,7 @@ a = Axis(f[1,1],
 	xlabel="time",
 	yticks=([-1,1, 0], ["↓", "↑", ""]),
 )
-plot_sim(sims[1])
+plot_sim(sims[1], Makie.wong_colors()[1])
 hidexdecorations!(a)
 save("../figures/03 free.pdf", f)
 display(f)
@@ -54,7 +48,7 @@ a = Axis(f[1,1],
 	xlabel="time",
 	yticks=([-1,1, 0], ["↓", "↑", ""]),
 )
-plot_sim(sims[2])
+plot_sim(sims[2], Makie.wong_colors()[2])
 hidexdecorations!(a)
 save("../figures/03 measurement.pdf", f)
 display(f)
