@@ -1,4 +1,6 @@
-\documentclass[handout]{beamer}
+\documentclass[
+	% handout
+]{beamer}
 \input{template.tex}
 
 \addbibresource{literature.bib} 
@@ -79,17 +81,36 @@
 \end{frame}
 
 \begin{frame}{Qubit Example}
-	\begin{align*}
-		H &= \sigma_z\\
-		C &= \sigma_x
-	\end{align*}	
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{align*}
+			H &= \sigma_z\\
+			|\psi> &\propto |\uparrow\rangle + |\downarrow\rangle
+		\end{align*}
+		$\Rightarrow$ Superposition is stable
+
+		\only<2>{
+			$$M = \sigma_z$$
+			$\Rightarrow$ $p(\uparrow) = p(\downarrow)$
+		}
+
+
+		\column{.5\textwidth}
+		\centering
+		\only<1>{
+			\includegraphics{figures/03 free.pdf}
+		}
+		\only<2>{
+			\includegraphics{figures/03 measurement.pdf}
+		}
+	\end{columns}
 \end{frame}
 
-\begin{frame}{Measurement}
-	\begin{center}
-		\includegraphics{figures/03 measurement.pdf}
-	\end{center}
+\begin{frame}{Decay}
+	
 \end{frame}
+
+
 
 \begin{frame}{Discrete Zeno}
 	\begin{center}

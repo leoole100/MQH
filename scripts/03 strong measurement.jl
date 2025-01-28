@@ -1,17 +1,10 @@
 include("00 functions.jl")
 using QuantumOptics, CairoMakie, LinearAlgebra, StatsBase
 
-# %%
 # Define the Hilbert space (two-level system)
 basis = SpinBasis(1//2)
 
-# Define the system's Hamiltonian (e.g., a simple Rabi oscillation)
-H = dense(sigmaz(basis))
-
-# measurement operator
-C = sigmaz(basis)
-
-function evolve_and_measure(time_array, measurement_time)
+function evolve_and_measure(time_array, measurement_time, H, C, ψ0)
 	time_pre = 0:time_array[2]:(measurement_time - time_array[1])
 	pre = timeevolution.schroedinger(time_pre, ψ0, H)
 	
@@ -28,31 +21,40 @@ function evolve_and_measure(time_array, measurement_time)
 	return full_time, full_state
 end
 
-# Initial state (e.g., |ψ⟩ = |↑⟩)
-ψ0 = normalize(spinup(basis) + spindown(basis))
+function free_and_measured(time_array, measure_time; H, C, ψ0)
+	free = timeevolution.schroedinger(time_array, ψ0, H)
+	measured = evolve_and_measure(time_array, measure_time, H, C, ψ0)
+	return free, measured
+end
 
-times = 0:0.01:π
-measure_time =  π/4
-measured = evolve_and_measure(times, measure_time)
-free = timeevolution.schroedinger(times, ψ0, H)
+function plot_sim(measured, O=sigmaz(basis))
+	obs = real.(expect_uncert(O, measured[2]))
+	band!(measured[1], obs[1]-obs[2], obs[1]+obs[2], alpha=.2)
+	return lines!(measured[1], obs[1])
+end
 
-f = Figure(size=fullsize)
-a = Axis(f[1,1], 
-	xlabel="time", ylabel=L"\sigma_z",
-	yticks=([-1,1, 0], ["↓", "↑", ""])
+sims = free_and_measured(0:0.01:2, 1,
+	H = dense(sigmaz(basis)),
+	C = sigmaz(basis),
+	ψ0 = normalize(spinup(basis) + spindown(basis))
 )
-O = C 
 
-obs = real.(expect_uncert(O, measured[2]))
-lines!(measured[1], obs[1], label="measured")
-band!(measured[1], obs[1]-obs[2], obs[1]+obs[2], alpha=.2)
+f = Figure(size=halfsize)
+a = Axis(f[1,1], 
+	xlabel="time",
+	yticks=([-1,1, 0], ["↓", "↑", ""]),
+)
+plot_sim(sims[1])
+hidexdecorations!(a)
+save("../figures/03 free.pdf", f)
+display(f)
 
-obs = real.(expect_uncert(O, free[2]))
-lines!(free[1], obs[1], label="free")
-band!(free[1], obs[1]-obs[2], obs[1]+obs[2], alpha=.2)
-
-vlines!(measure_time)
-axislegend()
-xlims!(a, extrema(times))
+f = Figure(size=halfsize)
+a = Axis(f[1,1], 
+	xlabel="time",
+	yticks=([-1,1, 0], ["↓", "↑", ""]),
+)
+plot_sim(sims[2])
+hidexdecorations!(a)
 save("../figures/03 measurement.pdf", f)
 display(f)
