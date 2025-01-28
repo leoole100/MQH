@@ -17,4 +17,22 @@ halfsize = (2inch, (2/1.33)inch)
 fullsize = (4inch, (4/1.33)inch)
 
 
-using QuantumOptics
+using QuantumOptics, LinearAlgebra, StatsBase
+
+function measure(C::Operator, ψ::Ket)
+	eigenvals, eigenvecs = eigen(dense(C).data)
+	
+	probs = [abs2(dagger(ψ)*Ket(basis,eigenvecs[:, i])) for i in 1:length(eigenvals)]
+	
+	outcome_index = sample( 1:length(eigenvals), Weights(probs))
+	outcome_value = eigenvals[outcome_index]
+	ψ_post = normalize(Ket(basis, eigenvecs[:, outcome_index]))
+	
+	return outcome_value, ψ_post
+end
+
+function expect_uncert(O::Operator, ψs)
+	expectation = expect(O, ψs)
+	uncertainty = sqrt.(expect(O*O, ψs) .- expectation.^2)
+	return expectation, uncertainty
+end

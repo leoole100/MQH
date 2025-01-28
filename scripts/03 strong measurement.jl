@@ -14,18 +14,6 @@ H = dense(sigmax(basis))
 # measurement operator
 C = sigmaz(basis)
 
-function measure(C::Operator, ψ::Ket)
-	eigenvals, eigenvecs = eigen(dense(C).data)
-	
-	probs = [abs2(dagger(ψ)*Ket(basis,eigenvecs[:, i])) for i in 1:length(eigenvals)]
-	
-	outcome_index = sample( 1:length(eigenvals), Weights(probs))
-	outcome_value = eigenvals[outcome_index]
-	ψ_post = normalize(Ket(basis, eigenvecs[:, outcome_index]))
-	
-	return outcome_value, ψ_post
-end
-
 function evolve_and_measure(time_array, measurement_time)
 	time_pre = 0:time_array[2]:(measurement_time - time_array[1])
 	pre = timeevolution.schroedinger(time_pre, ψ0, H)
@@ -48,16 +36,10 @@ measure_time =  π/4
 measured = evolve_and_measure(times, measure_time)
 free = timeevolution.schroedinger(times, ψ0, H)
 
-function expect_uncert(O::Operator, ψs)
-	expectation = expect(O, ψs)
-	uncertainty = sqrt.(expect(O*O, ψs) .- expectation.^2)
-	return expectation, uncertainty
-end
-
 f = Figure(size=fullsize)
 a = Axis(f[1,1], 
 	xlabel="time", ylabel=L"\sigma_z",
-	yticks=([-1,1], ["↓", "↑"])
+	yticks=([-1,1, 0], ["↓", "↑", ""])
 )
 O = C 
 
@@ -69,8 +51,8 @@ obs = real.(expect_uncert(O, free[2]))
 lines!(free[1], obs[1], label="free")
 band!(free[1], obs[1]-obs[2], obs[1]+obs[2], alpha=.2)
 
-# vlines!(measure_time)
-axislegend(framevisible=false, position=:rb)
+vlines!(measure_time)
+axislegend()
 xlims!(a, extrema(times))
 save("../figures/03 measurement.pdf", f)
 display(f)
