@@ -2,7 +2,7 @@
 based on https://docs.qojulia.org/examples/quantum-zeno-effect
 ==#
 include("00 functions.jl")
-
+using QuantumOptics, CairoMakie
 # %%
 
 # Parameters

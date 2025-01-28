@@ -6,10 +6,7 @@ using QuantumOptics, CairoMakie, LinearAlgebra, StatsBase
 basis = SpinBasis(1//2)
 
 # Define the system's Hamiltonian (e.g., a simple Rabi oscillation)
-H = dense(sigmax(basis))
-
-# Initial state (e.g., |ψ⟩ = |↑⟩)
-ψ0 = spinup(basis)
+H = dense(sigmaz(basis))
 
 # measurement operator
 C = sigmaz(basis)
@@ -30,6 +27,9 @@ function evolve_and_measure(time_array, measurement_time)
 	
 	return full_time, full_state
 end
+
+# Initial state (e.g., |ψ⟩ = |↑⟩)
+ψ0 = normalize(spinup(basis) + spindown(basis))
 
 times = 0:0.01:π
 measure_time =  π/4

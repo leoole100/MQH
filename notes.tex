@@ -1,10 +1,9 @@
-\documentclass{beamer}
+\documentclass[handout]{beamer}
 \input{template.tex}
 
 \addbibresource{literature.bib} 
 \DeclareMathOperator{\Tr}{Tr}
 
-\title{Noise Analysis in an Optomechanical Resonance Cavity}
 \author{Leon Oleschko}
 \institute{Universität Konstanz}
 \date{\today}
@@ -14,7 +13,7 @@
 \setbeamertemplate{footline}{} 
 \begin{frame}
 	\huge
-	\markieren{}{}{Noise Analysis}{Optomechanical Cavity}
+	\markieren{}{}{Quantum Measurement}{Zeno Effect}
 	
 	\vfill
 	\normalsize
@@ -29,19 +28,60 @@
 \end{frame}
 }
 
+\begin{frame}{}
+	\Large
+	No phenomenon is a real phenomenon until it is an observed phenomenon.\\
+	\normalsize\raggedleft
+	 -- John Archibald Wheeler 1970
+
+	\note{
+		In this course, we primarily examined nonlinear phenomena through numerical simulations. Toward the end, we introduced a quantum harmonic oscillator model interacting with a thermal bath.
+
+		Why highlight measurement now?
+
+		Measurement is the bridge between our theoretical models (classical or quantum) and what we actually observe in experiments.
+		Wheeler’s insight underscores how observation (or readout) transforms a theoretical prediction into a real outcome.
+		
+		Especially critical in quantum mechanics, where the act of measuring plays a unique role in determining the system’s state.
+	}
+\end{frame}
+
+\begin{frame}{Historical Note}
+	\begin{itemize}[<+->]
+		\item[1900] Plank \& Einstein: Blackbody Radiation
+		\item[1920] Bohr, Heisenberg: Copenhagen interpretation\\
+								Born: Probabilistic interpretation $P(m) = |\langle m| \psi \rangle|^2$
+		\item[1930] EPR Paradox
+		\item[1926] Schrödinger: Measurement Problem 
+		\item[1932] von Neumann: \textit{Mathematical Foundations of Quantum Mechanics}
+		\item[\textcolor{seegrau}{1970}] \textcolor{seegrau}{Decoherence Theory}
+		\item[] Experimental Interest
+	\end{itemize}
+	\note{
+		In the 1920s, Bohr and Heisenberg laid the foundation of quantum measurement theory. Today, we harness these principles to build quantum processors. For instance, IBM’s superconducting qubits rely on microwave resonator readouts—just as von Neumann’s postulate suggests.
+		Now let’s revisit the formal definition of projective measurements—because these are exactly what’s implemented (at least in an approximate sense) on hardware.
+	}
+\end{frame}
 
 
 \section{Strong Measurement}
-\begin{frame}{Strong Measurement}
-	Projective Measurement:
-	
+\begin{frame}{Projective Measurement}
+	Measurement Operator $\hat M = \sum m |m\rangle$ on $\psi$:
+	$$p(m) = |\langle m|\psi\rangle|^2$$
+	$$\psi \xrightarrow{\text{Measuring }m} |m\rangle$$
+
+	{\small\textcolor{seegrau}{
+		Neglegting Normalization and Degenercy:
+		POVM Measurement
+	}}
+
 	\customcite[2.2.3]{nielsen_quantum_2010}
 \end{frame}
 
-\begin{frame}{Qbit System}
+\begin{frame}{Qubit Example}
 	\begin{align*}
-		H &= \sigma_x\\
-		C &= \sigma_z
+		H &= \sigma_z\\
+		C &= \sigma_x
 	\end{align*}	
 \end{frame}
 

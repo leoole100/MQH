@@ -2,6 +2,7 @@
 time evolution of the rabi oscillation with a single, discrete measurement
 ==#
 include("00 functions.jl")
+using CairoMakie, QuantumOptics
 
 # Parameters
 Nc = 10
