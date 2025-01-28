@@ -43,8 +43,8 @@ function evolution(
 end
 
 
-evo = evolution(0:0.1:10, [])
-meas = evolution(0:0.1:10, [2, 5])
+evo = evolution(0:0.01:10, [])
+meas = evolution(0:0.01:10, [1, 6])
 
 
 f = Figure(size=(fullsize[1]*0.8, fullsize[2]))
@@ -61,8 +61,9 @@ display(f)
 
 # %%
 
-evo = evolution(0:0.1:10, [])
-meas = evolution(0:0.1:10, collect(1:2:9))
+times = 0:0.1:10
+evo = evolution(times, [])
+meas = evolution(times, collect(1:1:9))
 
 f = Figure(size=(fullsize[1], fullsize[2]))
 a = Axis(f[1,1], 
