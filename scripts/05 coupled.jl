@@ -2,13 +2,19 @@ include("00 functions.jl")
 using QuantumOptics, CairoMakie, LinearAlgebra, StatsBase
 
 # Define the Hilbert space (two-level system)
-basis = SpinBasis(1//2)
-κ=0.5
+basis = SpinBasis(1//2) ⊗ FockBasis(3)
+
+a = destroy(bc) ⊗ one(ba)
+ad = create(bc) ⊗ one(ba)
+σ⁺ = one(bc) ⊗ sigmap(ba)
+σ = one(bc) ⊗ sigmam(ba)
+
 
 function evolution(
 	times, meas_times;
+	κ=0.5,
 	H = dense(sigmaz(basis)),
-	ψ0 = spinup(basis),
+	ψ0 = spinup(basis) ⊗ fockstate(bc, 0),
 	C = sigmaz(basis),
 	J = κ*sigmam(basis)
 )

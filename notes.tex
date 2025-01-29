@@ -106,7 +106,7 @@
 	\end{columns}
 \end{frame}
 
-\begin{frame}{Example: Decay and Zeno}
+\begin{frame}{Example: Decay}
 	\begin{columns}
 		\column{.2\textwidth}
 		\begin{align*}
@@ -130,19 +130,46 @@
 
 \begin{frame}{Zeno Effect}
 	\begin{columns}
-		\column{.5\textwidth}
+		\column{.6\textwidth}
 		\begin{itemize}
-			\item Zeno of Elea (460 BCE): Arrow paradox
-			\item Misra and Sudarshan (1977): “The Zeno's paradox in quantum theory”
-			\item Experimentally demonstrated (1990) with 5000 $^9$Be$^+$ ions at 250 mK
-			\item Used in Magnetometers and possibly birds
+			\item<1-> Zeno of Elea (460 BCE): Arrow paradox
+			\item<1-> Misra and Sudarshan (1977): “The Zeno's paradox in quantum theory”
+			\item<2-> Experimentally demonstrated (1990) with 5000 $^9$Be$^+$ ions at 250 mK
+			\item<3-> Used in Magnetometers and possibly birds
 		\end{itemize}
 		\customcite{kominis_quantum_2009}
 
-		\column{.5\textwidth}
-		$$\includegraphics[width=\textwidth]{figures/zeno_data.png}$$
-		\customcite{itano_quantum_1990}
+		\column{.4\textwidth}
+		\centering
+		\only<2->{
+			\includegraphics[width=\textwidth]{figures/zeno_energy.png}
+			\includegraphics[width=.8\textwidth]{figures/zeno_data.png}
+			\customcite{itano_quantum_1990}
+		}
 	\end{columns}
+\end{frame}
+
+\begin{frame}{Practical Examples of strong measurements}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{itemize}
+			\item<1-> Trapped Ions
+			\item<2-> Superconducting Qubits
+			\item<3-> Stern-Gerlach Experiment
+			\item<4-> Quantum Dot Charge Readout
+		\end{itemize}
+
+		\column{.5\textwidth}
+		\only<1>{\includegraphics[width=\textwidth]{figures/zeno_energy.png}}
+		\only<2>{\includegraphics[width=\textwidth]{figures/qubit_circuit.jpg}}
+		\only<3>{\includegraphics[width=\textwidth]{figures/stern-gerlach.jpg}}
+		\only<4>{\includegraphics[width=\textwidth]{figures/qd_charge.png}}
+		\only<5>{
+			$\Rightarrow$ 
+			Used when the quantum wave function is collapsed into a classical result
+		}
+	\end{columns}
+	
 \end{frame}
 
 \section{Weak Measurement}
