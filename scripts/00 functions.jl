@@ -37,8 +37,10 @@ function expect_uncert(O::Operator, ψs)
 	return expectation, uncertainty
 end
 
-function plot_sim(measured, color, O=sigmaz(basis))
+function plot_sim(measured, color; O=sigmaz(basis), uncertainty=true)
 	obs = real.(expect_uncert(O, measured[2]))
-	band!(measured[1], obs[1]-obs[2], obs[1]+obs[2], alpha=.2, color=color)
+	if uncertainty
+		band!(measured[1], obs[1]-obs[2], obs[1]+obs[2], alpha=.2, color=color)
+	end
 	return lines!(measured[1], obs[1], color=color)
 end
