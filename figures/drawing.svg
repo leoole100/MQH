@@ -27,11 +27,11 @@
      inkscape:deskcolor="#d1d1d1"
      inkscape:document-units="mm"
      showgrid="true"
-     inkscape:zoom="8"
-     inkscape:cx="279.125"
-     inkscape:cy="476"
-     inkscape:window-width="2387"
-     inkscape:window-height="1513"
+     inkscape:zoom="5.6568543"
+     inkscape:cx="291.15122"
+     inkscape:cy="528.82748"
+     inkscape:window-width="2304"
+     inkscape:window-height="1440"
      inkscape:window-x="26"
      inkscape:window-y="23"
      inkscape:window-maximized="0"
@@ -201,17 +201,12 @@
        id="path4998-0"
        sodipodi:nodetypes="csc" />
     <path
-       style="opacity:1;fill:#ff0000;fill-opacity:0.2;stroke:#ff0000;stroke-width:0.176036;stroke-linecap:round;stroke-dasharray:0.176036, 1.40829;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker9286)"
+       style="opacity:1;fill:#ff0000;fill-opacity:0.2;stroke:#ff0000;stroke-width:0.176036;stroke-linecap:round;stroke-dasharray:0.528108,0.528108;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker9286)"
        d="m 60,122.5 h 9.000002"
        id="path7158"
        sodipodi:nodetypes="cc" />
     <path
-       style="fill:#ff0000;fill-opacity:0.2;stroke:#ff0000;stroke-width:0.176;stroke-linecap:round;stroke-dasharray:0.176,1.40800203;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker9286-3)"
-       d="m 60,127.5 h 9.000002"
-       id="path7158-7"
-       sodipodi:nodetypes="cc" />
-    <path
-       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.176036;stroke-linecap:round;stroke-dasharray:0.176036, 0.352072;stroke-dashoffset:0"
+       style="opacity:1;fill:none;fill-opacity:1;stroke:#000000;stroke-width:0.176036;stroke-linecap:round;stroke-dasharray:0.528108,0.528108;stroke-dashoffset:0"
        d="m 69.999999,120 c 0,0 -0.999999,3 -1,5 -10e-7,2 1,5 1,5"
        id="path4998"
        sodipodi:nodetypes="csc" />
@@ -222,9 +217,9 @@
        style="font-weight:300;font-size:13.3333px;font-family:Roboto;-inkscape-font-specification:'Roboto, Light';font-feature-settings:'ss01', 'ss02';white-space:pre;shape-inside:url(#rect10346);display:inline;opacity:1;fill:#ffaaaa;fill-opacity:1;stroke:none;stroke-width:0.665333;stroke-linecap:round;stroke-dasharray:0.665333, 5.32266;stroke-dashoffset:0;stroke-opacity:1"><tspan
          x="260.78711"
          y="446.90673"
-         id="tspan1216"><tspan
+         id="tspan5087"><tspan
            style="fill:#ff0000"
-           id="tspan1214">n̂</tspan></tspan></text>
+           id="tspan5085">n̂</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,12.643974,16.561618)"
@@ -232,9 +227,9 @@
        style="font-weight:300;font-size:13.3333px;font-family:Roboto;-inkscape-font-specification:'Roboto, Light';font-feature-settings:'ss01', 'ss02';white-space:pre;shape-inside:url(#rect10346-8);display:inline;fill:#ffaaaa;fill-opacity:1;stroke:none;stroke-width:0.665333;stroke-linecap:round;stroke-dasharray:0.665333, 5.32266;stroke-dashoffset:0;stroke-opacity:1"><tspan
          x="260.78711"
          y="446.90673"
-         id="tspan1220"><tspan
+         id="tspan5091"><tspan
            style="fill:#000000"
-           id="tspan1218">x̂</tspan></tspan></text>
+           id="tspan5089">x̂</tspan></tspan></text>
     <text
        xml:space="preserve"
        transform="matrix(0.26458333,0,0,0.26458333,22.445882,8.0099414)"
@@ -242,6 +237,18 @@
        style="font-weight:300;font-size:13.3333px;font-family:Roboto;-inkscape-font-specification:'Roboto, Light';font-feature-settings:'ss01', 'ss02';white-space:pre;shape-inside:url(#rect10346-8-7);display:inline;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.665333;stroke-linecap:round;stroke-dasharray:0.665333, 5.32266;stroke-dashoffset:0;stroke-opacity:1"><tspan
          x="260.78711"
          y="446.90673"
-         id="tspan1222">T</tspan></text>
+         id="tspan5093">T</tspan></text>
+    <rect
+       style="fill:#a6a6a6;stroke:none;stroke-width:0.352999;stroke-linecap:square;stroke-dasharray:1.059, 1.059;fill-opacity:1"
+       id="rect2470"
+       width="10"
+       height="5"
+       x="50"
+       y="125" />
+    <path
+       style="fill:#ff0000;fill-opacity:0.2;stroke:#ff0000;stroke-width:0.176;stroke-linecap:round;stroke-dasharray:0.528,0.528;stroke-dashoffset:0;stroke-opacity:1;marker-start:url(#marker9286-3)"
+       d="m 60,127.5 h 9.000002"
+       id="path7158-7"
+       sodipodi:nodetypes="cc" />
   </g>
 </svg>

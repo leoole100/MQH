@@ -17,8 +17,8 @@
 \setbeamertemplate{footline}{%
 	\begin{beamercolorbox}[sep=.25cm,wd=\paperwidth,leftskip=0.25cm,rightskip=0.25cm]{footlinecolor}
 		\small
-		\textbf{\insertsection}\quad\insertsubsection
-		\hfill\insertframenumber
+		% \textbf{\insertsection}\quad\insertsubsection
+		% \hfill\insertframenumber
 	\end{beamercolorbox}%
 }
 
@@ -56,6 +56,15 @@
 \usepackage{ifthen}
 \newcommand{\customcite}[2][]{
 	\blfootnote{
+		\emph{\citetitle{#2}}, \citeauthor*{#2}	\citeyear{#2}
+		\ifthenelse{ \equal{#1}{} }{}{(#1)}
+	}
+}
+
+\newcommand{\highlightcite}[2][]{
+	\blfootnote{
+		\color{seeblau}
+		\small
 		\emph{\citetitle{#2}}, \citeauthor*{#2}	\citeyear{#2}
 		\ifthenelse{ \equal{#1}{} }{}{(#1)}
 	}

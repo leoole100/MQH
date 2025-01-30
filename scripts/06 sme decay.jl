@@ -28,7 +28,6 @@ end
 eta = [0.01, 0.1, 1]
 evolutions = [evolution(eta=e) for e in eta]
 
-# %%
 
 f = Figure(size=(0.8*fullsize[1], 0.9*fullsize[2]))
 a = Axis(f[1,1], 
@@ -51,8 +50,22 @@ end
 Colorbar(f[:,2], colorrange=extrema(log10.(eta)), label="log η", ticks=log10.(eta))
 hidexdecorations!(a)
 hidexdecorations!(b)
-rowgap!(f.layout, 0)
-colgap!(f.layout, 0)
+linkyaxes!(b,a)
+ylims!(-1.2,1.2)
+
 save("../figures/06 sme.pdf", f)
 display(f)
 
+
+f = Figure(size=(0.6*fullsize[1], 0.6*fullsize[2]))
+b = Axis(f[1,1],
+	yticks=([-1,1, 0], ["↓", "↑", ""]),
+	ylabel="Measured"
+) 
+for (e, evolution) in zip(eta, evolutions)
+	evo = evolution[1]
+	lines!(b, evo[1], real.(evolution[2]), label="$e", color=log10(e), colorrange=extrema(log10.(eta)))
+end
+ylims!(-1.2,1.2)
+save("../figures/06 sme small.pdf", f)
+display(f)
