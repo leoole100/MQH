@@ -32,7 +32,7 @@
 
 \begin{frame}{}
 	\Large
-	No phenomenon is a real phenomenon until it is an observed phenomenon.\\
+	No phenomenon is a real until it is observed.\\
 	\normalsize\raggedleft
 	 -- John Archibald Wheeler 1970
 
@@ -67,10 +67,13 @@
 
 
 \section{Strong Measurement}
-\begin{frame}{Projective Measurement}
-	Measurement Operator $\hat M = \sum m |m\rangle$ on $\psi$:
+\begin{frame}{Projective (von Neumann) Measurement}
+	Measurement Operator $\hat A = \sum m |m\rangle$ on $\psi$:
 	$$p(m) = |\langle m|\psi\rangle|^2$$
 	$$\psi \xrightarrow{\text{Measuring }m} |m\rangle$$
+
+	More formally with projector $\hat M \sim |m\rangle\langle m|$:
+	$$\rho' \propto \hat M \rho \hat M$$
 
 	{\small\textcolor{seegrau}{
 		Neglegting Normalization and Degenercy:
@@ -78,6 +81,7 @@
 	}}
 
 	\customcite[2.2.3]{nielsen_quantum_2010}
+	\customcite[1]{wiseman_quantum_2010}
 \end{frame}
 
 \begin{frame}{Example: Superposition}
@@ -85,13 +89,14 @@
 		\column{.5\textwidth}
 		\begin{align*}
 			H &= \sigma_z\\
-			|\psi> &\propto |\uparrow\rangle + |\downarrow\rangle
+			|\psi> &\propto |\uparrow\rangle + |\downarrow\rangle\\
+			i \partial_t \psi &= H \psi
 		\end{align*}
 		$\Rightarrow$ Superposition is stable
 
 		\only<2>{
 			$$M = \sigma_z$$
-			$\Rightarrow$ $p(\uparrow) = p(\downarrow)$
+			$$p(\updownarrow)=|\langle\updownarrow|\psi\rangle|^2 = \frac{1}{2}$$
 		}
 
 
@@ -113,7 +118,8 @@
 			H &= \sigma_z\\
 			|\psi> &\propto |\uparrow\rangle\\
 			M &= \sigma_z\\
-			J &= \kappa\sigma_-
+			J &= \kappa\sigma_-\\
+			\partial_t\rho &= -i [H, \rho] + J\rho J^\dagger - \frac{1}{2} \{J^\dagger J, \rho\} 
 		\end{align*}
 		
 		\column{.8\textwidth}
@@ -167,6 +173,14 @@
 		\only<5>{
 			$\Rightarrow$ 
 			Used when the quantum wave function is collapsed into a classical result
+			\vspace{1em}
+
+			But breaks on:
+			\begin{itemize}
+				\item simultaneous measurement of conjugate variables
+				\item optical measurements
+			\end{itemize}
+			\customcite[]{wiseman_quantum_2010}
 		}
 	\end{columns}
 	
@@ -175,10 +189,71 @@
 \section{Weak Measurement}
 \begin{frame}{Weak Measurement}
 	\begin{center}
-		\includegraphics[width=\textwidth]{figures/Fig. 8.4.jpg}
+		\includegraphics{figures/back_action.pdf}
 	\end{center}
-	\customcite[]{vladimir_braginsky_quantum_1992}
+	\only<-1>{
+		Measured system $S$ and Measurement Device $S$ combined to:
+		$$H = H_S\otimes 1 + 1\otimes H_M + g(t) \; C_S \otimes P_M$$
+		
+		Then a strong measurement $X$ is performed on the $M$\\
+		this yields $\langle C\rangle + \xi$ and partial collapse in $S$
+	}
+
+	\only<2->{
+		Continuous application leads to \emph{SME} for $S$:
+		$$
+			\partial_t\rho 
+			= -i[H,\rho] 
+			+ J\rho J^\dagger - \frac{1}{2} \{J^\dagger J, \rho\} 
+			+ \left(C\rho + \rho C^\dagger - \Tr(C\rho + \rho C^\dagger)\right)\xi(t)
+		$$
+	}
+
+	\customcite[Fig 8.4 modified]{vladimir_braginsky_quantum_1992}
+	\customcite[]{tamir_introduction_2013}
 \end{frame}
+
+% Measurement Operator $\hat M = \sum m |m\rangle$ on $\psi$:
+% $$p(m) = |\langle m|\psi\rangle|^2$$
+% $$\psi \xrightarrow{\text{Measuring }m} |m\rangle$$
+
+
+% \begin{frame}{Kraus Operators}
+% 	Measuring $A = \sum a |a\rangle$ define Kraus operators:
+% 	$$
+% 		K_0 = \sqrt{1-p}\; I,  \quad
+% 		K_a = \sqrt{p} \; | a \rangle\langle a |
+% 	$$
+
+% 	Evolution after stochastically choosing $a$:
+% 	$$\rho\rightarrow K_m \rho K^\dagger_m$$
+
+% 	Measuring Result: $$a + \frac{\mathcal{N}(1)}{\sqrt{p}}$$
+
+% 	\customcite[]{clerk_introduction_2010}
+% \end{frame}
+
+
+\begin{frame}{Example: Weak measurment}
+	\begin{columns}
+		\column{.5\textwidth}
+		\begin{center}
+			\includegraphics{figures/rabi.pdf}
+		\end{center}
+
+		\column{.5\textwidth}
+		\begin{align*}
+			H &= \sigma_z &\text{Atom}\\
+			&+ a^\dagger a + g \sigma_z a^\dagger a &\text{M}\\
+			J &= \kappa\; a &\text{Dissipation}\\
+			C &= \kappa\eta\; a &\text{Measurement}
+		\end{align*}
+		
+	\end{columns}
+
+	\customcite{nielsen_stochastic_2008}
+\end{frame}
+
 
 \begin{frame}{Rabi Oscillations Setup}
 	\begin{columns}
@@ -211,7 +286,18 @@
 	\begin{frame}[plain]{}\end{frame}
 }
 
-\section{Appendix}
-% \input{notes_sql.tex}
+\begin{frame}{Types of Measurements}
+	\begin{columns}
+		\column{.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/types_table.png}
+
+		\column{.5\textwidth}
+		\includegraphics[width=\textwidth]{figures/types_ven.png}
+	\end{columns}
+	\customcite{wiseman_quantum_2010}
+\end{frame}
+
+\section{Standard Quantum Limit}
+\input{notes_sql.tex}
 
 \end{document}
